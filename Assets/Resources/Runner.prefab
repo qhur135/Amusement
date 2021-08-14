@@ -129,12 +129,10 @@ GameObject:
   - component: {fileID: 8117326281283404037}
   - component: {fileID: -7111643617925603641}
   - component: {fileID: 8188402002516267257}
-  - component: {fileID: 4726645978101653803}
-  - component: {fileID: 610474769016451219}
-  - component: {fileID: -2583725588341255953}
+  - component: {fileID: 4525292757819393588}
   m_Layer: 0
-  m_Name: Player
-  m_TagString: NonActive
+  m_Name: Runner
+  m_TagString: Runner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -247,10 +245,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObservedComponentsFoldoutOpen: 1
   Group: 0
-  prefixField: 0
+  prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
+  observableSearch: 0
   ObservedComponents:
   - {fileID: 8188402002516267257}
   sceneViewId: 0
@@ -280,16 +278,16 @@ MonoBehaviour:
     ExtrapolateIncludingRoundTripTime: 1
     ExtrapolateNumberOfStoredPositions: 1
   m_RotationModel:
-    SynchronizeEnabled: 0
+    SynchronizeEnabled: 1
     InterpolateOption: 1
     InterpolateRotateTowardsSpeed: 180
     InterpolateLerpSpeed: 5
   m_ScaleModel:
-    SynchronizeEnabled: 0
+    SynchronizeEnabled: 1
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &4726645978101653803
+--- !u!114 &4525292757819393588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,35 +296,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8117326281283404034}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 626b84b5249156144a6076c2519f8049, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
-  jumpPower: 30
---- !u!114 &610474769016451219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8117326281283404034}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a7ae1ac4d974585989f579392cbec7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
-  jumpPower: 30
---- !u!114 &-2583725588341255953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8117326281283404034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6684e6091b7c241649b78255be1c1e5d, type: 3}
+  m_Script: {fileID: 11500000, guid: 333b20abe90689e48963caa4e1e1e915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3

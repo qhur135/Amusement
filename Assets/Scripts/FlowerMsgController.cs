@@ -19,7 +19,7 @@ public class FlowerMsgController : MonoBehaviour
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-        flowerText = new string[10] { "무", "궁", "화 ", "꽃", "이 ", "피", "었", "습", "니", "" };
+        flowerText = new string[10] { "무", "궁", "화 ", "꽃", "이 ", "피", "었", "습", "니", "다" };
         flowerCnt = 0;
     }
 

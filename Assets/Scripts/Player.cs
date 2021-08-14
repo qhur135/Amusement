@@ -91,6 +91,7 @@ public class Player : MonoBehaviour
         if(collision.gameObject.tag == "Wall") jumpCount = 2;
     }
 
+
     public PhotonView getPV()
     {
         return PV;
@@ -103,6 +104,8 @@ public class Player : MonoBehaviour
 
     public bool isPlayerID(int id)
     {
+        print(playerID);
+        print(id);
         return playerID == id;
     }
 }

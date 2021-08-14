@@ -8,63 +8,67 @@ using TMPro;
 
 public class SpawnPlayers : MonoBehaviour
 {
-    public GameObject playerPrefab;
+
+    const string GAME_MANAGER_TAG = "GameManager";
+
     public GameObject enemyPrefab;
+    public GameObject runnerPrefab;
     public GameObject bouncePrefab;
 
-    //private int currentidx;
-    //
+    [SerializeField] Button startbtn;
+    PhotonView PV;
+    GameManager Gamemanager;
+    Player players;
 
-    //string[] text = new string[10] { "무", "궁", "화 ", "꽃", "이 ", "피", "었", "습", "니", "다" };
 
+
+    private void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+
+
+        //gameManager 초기화
+        var GameManagerObj = GameObject.FindWithTag(GAME_MANAGER_TAG);
+        Gamemanager = GameManagerObj.GetComponent<GameManager>();
+    }
     private void Start()
     {
-       // Vector3 bouncePosition = new Vector3(1, 3, -29);
-        //PhotonNetwork.Instantiate(bouncePrefab.name, bouncePosition, Quaternion.identity);
+        startbtn.onClick.AddListener(btnOnClick);
 
-        if (PhotonNetwork.IsMasterClient) // enemy - create room
+        if (PhotonNetwork.IsMasterClient)
         {
-            //currentidx = 0;
-            // Vector3 enemyPosition = new Vector3(1, 2, 28);
-            Vector3 enemyPosition = new Vector3(1, 2, -30);
+            Vector3 runnerPosition = new Vector3(1, 1.5f, -36); // 처음 시작할 때는 모두가 러너
+            PhotonNetwork.Instantiate(runnerPrefab.name, runnerPosition, Quaternion.identity);
 
-            PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
+            print("runner instatiate");
         }
         else
         {
-            Vector3 playerPosition = new Vector3(1, 1.5f, -36);
-            PhotonNetwork.Instantiate(playerPrefab.name, playerPosition, Quaternion.identity);
-        } 
-       
+            Vector3 runnerPosition = new Vector3(2, 1.5f, -36); // 처음 시작할 때는 모두가 러너
+            PhotonNetwork.Instantiate(runnerPrefab.name, runnerPosition, Quaternion.identity);
+        }
     }
-    void Update()
+    public void btnOnClick()
     {
-        //if (GameObject.FindWithTag("Enemy")) // enemy
-        //{
-        //    if (Input.GetKeyDown(KeyCode.LeftControl))
-        //    {
-        //        if (currentidx >= 10)
-        //        {
-        //            return;
-        //        }
+        if (PhotonNetwork.IsMasterClient) // 방장이면 랜덤으로 애너미 고르도록
+        {
+            PV.RPC("btncolorchange_RPC", RpcTarget.All);
 
-                
-        //        stateTxt.text += text[currentidx];
-        //        
-                
-        //        currentidx++;
-        //    }
+            PhotonView enemy = Gamemanager.getEnemy();
+            GameObject enemyobject = enemy.GetComponent<GameObject>();
+            // 애너미로 프리팹 바꾸기
 
-        //    if (Input.GetKeyDown(KeyCode.Return))
-        //    {
-        //        stateTxt.text = "";
-        //        view.RPC("Push_Enter", RpcTarget.All,null);
-               
-        //        currentidx = 0;
-        //    }
-        //}
-
+            //// 애너미 
+            //Vector3 enemyPosition = new Vector3(1, 1.5f, -30); 
+            //PhotonNetwork.Instantiate(enemy.name, enemyPosition, Quaternion.identity);
+            //print("generate");
+            
+        }
     }
-       
+    [PunRPC]
+    void btncolorchange_RPC()
+    {
+        startbtn.GetComponent<Button>().image.color = Color.green;
+    }
 }
 

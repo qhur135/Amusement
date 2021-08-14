@@ -10,24 +10,19 @@ public class Enemy : Player
 
     public override void Awake()
     {
-        
         base.Awake();
-       
         ableToMove = false; 
     }
 
     public override void Update()
     {
         if (!PV.IsMine) return;
-        
         base.Update(); 
-        
         
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             flowerMsgController.CountFlowerOnce();
         }
-        
         if (Input.GetKeyDown(KeyCode.Return))
         {
             flowerMsgController.ResetFlower();
@@ -48,7 +43,6 @@ public class Enemy : Player
     {
         base.OnCollisionEnter(collision);
 
-        
         if (collision.gameObject.tag.Equals(RUUNER_TAG))
         {
             ableToMove = true;
@@ -58,7 +52,7 @@ public class Enemy : Player
     public override void FixedUpdate()
     {
         if (!PV.IsMine) return;
-        
+
         base.FixedUpdate();
     }
 

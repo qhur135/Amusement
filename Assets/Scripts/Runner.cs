@@ -5,18 +5,17 @@ using UnityEngine;
 
 public class Runner : Player 
 {
-    // Runner - 술래가 아닌 사람
 
     const string START_LINE_TAG = "StartLine";
 
     Vector3 lastPosition;
-    bool cannotMove; // 움직여도 되는 상태인지
-    bool passStartLine; // 스타트라인을 지나갔는지 확인
+    bool cannotMove; 
+    bool passStartLine; 
     bool isCaught;
 
-    ////int caught_cnt = 0; // 잡힌 플레이어 수
-    //int pos_temp; // 연산을 위해 잠시 저장해 둘 변수
-    //Vector3 caught_position; // 플레이어 붙잡힐 위치
+    ////int caught_cnt = 0; 
+    //int pos_temp; 
+    //Vector3 caught_position; 
 
     //// Start is called before the first frame update
     //void Start()
@@ -28,9 +27,9 @@ public class Runner : Player
     public override void Awake()
     {
         base.Awake();
-        cannotMove = false; // 선 안에 있으면 움직여도 되는 상태
+        cannotMove = false; 
         passStartLine = false; 
-        isCaught = false; // 잡히지 않은 상태
+        isCaught = false; 
     }
 
     public override void Start()
@@ -49,21 +48,20 @@ public class Runner : Player
         if (!PV.IsMine) return;
         base.Update();
 
-        // 무궁화 꽃이 피었습니다가 끝났다면
+       
         if (flowerMsgController.isFlowerEnd()) 
         {
-            // 움직여도 되는 상태라면(선안에 있다면)
+            
             if (!cannotMove)
             {
-                lastPosition = transform.position; // 위치 저장
+                lastPosition = transform.position; 
                 if (passStartLine)
                 {
-                    cannotMove = true; // 선을 지났다면 움직일 수 없는 상태로
+                    cannotMove = true; 
                 }
             }
 
-            // 움직이면 안되는 상태일 때
-            // 최근 위치와 현재 위치가 다르다면
+           
             if (cannotMove && lastPosition != transform.position) 
             {
                 isCaught = true;
@@ -100,7 +98,6 @@ public class Runner : Player
 
     private void OnTriggerEnter(Collider other)
     {
-        // 스타트 라인을 지나갔다면
         if (other.gameObject.tag.Equals(START_LINE_TAG))
         {
             passStartLine = !passStartLine;
@@ -126,7 +123,7 @@ public class Runner : Player
     //        spawn.gameTxt.text = "";
     //        spawn.chageGameTxt();
     //    }
-    //    if (collision.gameObject.tag == "Enemy") // 플레이어가 부딪힌 대상이 에너미 일때
+    //    if (collision.gameObject.tag == "Enemy") // ?????????? ?????? ?????? ?????? ????
     //    {
     //        if (collision.gameObject.GetComponent<PlayerCtrl>().enabled == false)
     //        {
@@ -183,6 +180,6 @@ public class Runner : Player
     //{
     //    gameObject.tag = "Acitve";
 
-    //    gameObject.GetComponent<PlayerCtrl>().enabled = true; // 포지션 정보 넣어서 뒤에 있는 아이들만 풀어줘야 ㅎ
+    //    gameObject.GetComponent<PlayerCtrl>().enabled = true; // ?????? ???? ?????? ???? ???? ???????? ???????? ??
     //}
 }

@@ -9,6 +9,8 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
     public TMP_InputField createInput;
     public TMP_InputField joinInput;
+
+    
     //public TMP_InputField UserName;
 
     private void Start()

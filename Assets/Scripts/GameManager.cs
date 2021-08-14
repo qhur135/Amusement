@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     List<int> caughtRunners;
     List<int> playerIDs;
 
+    Player Players;
     PhotonView PV;
 
     Vector3 basePosition, runnerScale;
@@ -36,9 +37,31 @@ public class GameManager : MonoBehaviour
         return playerID;
     }
 
+    public PhotonView getEnemy() // ?? ???
+    {
+        int playercount = playerIDs.Count;
+        print(playercount);
+        int randomidx = Random.Range(0, playercount + 1);
+        print(randomidx);
+        int enemyID = playerIDs[randomidx];
+        print(enemyID);
+        GameObject [] players = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            Player p = players[i].GetComponent<Player>();
+            if (p.isPlayerID(enemyID))
+            {
+                print("get pv");
+                return p.getPV();
+            }
+        }
+        return null;
+    } 
+
     public void catchPlayer(Runner runner)
     {
-        if(basePosition == Vector3.zero) //수정 필요 더 명확한 조건으로
+        if(basePosition == Vector3.zero) 
         {
             basePosition = GameObject.FindWithTag(ENEMY_TAG).transform.position;
             runnerScale = runner.transform.lossyScale;
