@@ -40,7 +40,10 @@ public class Player : MonoBehaviour
         //movement 초기화
         movement = Vector3.zero;
 
-        playerID = gameManager.registerPlayer();
+        if (PV.IsMine)
+        {
+            playerID = gameManager.registerPlayer();
+        }
     }
 
     public virtual void Start()
@@ -104,8 +107,8 @@ public class Player : MonoBehaviour
 
     public bool isPlayerID(int id)
     {
-        print(playerID);
-        print(id);
+        print("playerid:"+playerID);
+        print("this id??:"+id);
         return playerID == id;
     }
 }

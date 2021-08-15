@@ -580,8 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4d1b97401034e468adfccdb917b770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 4337208195229505702, guid: f10a04e2b1e8a3b48b007bbce79b97f1, type: 3}
-  runnerPrefab: {fileID: 8117326281283404034, guid: 185eb601772a10444933387b8dbeaab9, type: 3}
+  playerPrefab: {fileID: 8117326281283404034, guid: 185eb601772a10444933387b8dbeaab9, type: 3}
   bouncePrefab: {fileID: 6223617057227795077, guid: 07ec32bcd6a21e34d9d0be169af45608, type: 3}
   startbtn: {fileID: 1631029670}
 --- !u!4 &351996166
