@@ -66,8 +66,7 @@ public class GameManager : MonoBehaviour
         }
 
         return null;
-    } 
-
+    }
     public void catchPlayer(Runner runner)
     {
         if(basePosition == Vector3.zero) 
@@ -82,6 +81,7 @@ public class GameManager : MonoBehaviour
         PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition);
     }
 
+    
     [PunRPC]
     public void catchPlayer_RPC(int playerID)
     {
