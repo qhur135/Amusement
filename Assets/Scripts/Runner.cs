@@ -40,6 +40,7 @@ public class Runner : Player
     public override void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
+
     }
 
     // Update is called once per frame
