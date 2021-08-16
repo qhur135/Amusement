@@ -25,48 +25,48 @@ public class GameManager : MonoBehaviour
         playerIDs = new List<int>();
     }
 
-    public int registerPlayer()
-    {
+    //public int registerPlayer()
+    //{
        
-        int playerID = Random.Range(1, 10000);
-        while (playerIDs.Contains(playerID))
-        {
-          playerID = Random.Range(1, 10000);
-        }
-        playerIDs.Add(playerID);
+    //    int playerID = Random.Range(1, 10000);
+    //    while (playerIDs.Contains(playerID))
+    //    {
+    //      playerID = Random.Range(1, 10000);
+    //    }
+    //    playerIDs.Add(playerID);
 
-        print("playerid generate");
+    //    print("playerid generate");
 
-        return playerID;
+    //    return playerID;
         
-    }
+    //}
 
-    public PhotonView getEnemy() // ?? ???
-    {
-        int playercount = playerIDs.Count;
-        print("player num:"+playercount);
-        int randomidx = Random.Range(0, playercount);
-        print("ramdomidx:"+randomidx);
-        int enemyID = playerIDs[randomidx];
-        print("enemyid:"+enemyID);
-        GameObject [] players = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
-        print("player object num:" + players.Length);
-        print("playerid[0]:" + playerIDs[0]);
+    //public PhotonView getEnemy() // ?? ???
+    //{
+    //    int playercount = playerIDs.Count;
+    //    print("player num:"+playercount);
+    //    int randomidx = Random.Range(0, playercount);
+    //    print("ramdomidx:"+randomidx);
+    //    int enemyID = playerIDs[randomidx];
+    //    print("enemyid:"+enemyID);
+    //    GameObject [] players = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
+    //    print("player object num:" + players.Length);
+    //    print("playerid[0]:" + playerIDs[0]);
 
-        print("playerid[1]:" + playerIDs[1]);
-        for (int i = 0; i < players.Length; i++)
-        {
-            Player p = players[i].GetComponent<Player>();
-            print("playerid:" +i+" "+p.getPlayerID());
-            if (p.isPlayerID(enemyID))
-            {
-                print("get pv");
-                return p.getPV();
-            }
-        }
+    //    print("playerid[1]:" + playerIDs[1]);
+    //    for (int i = 0; i < players.Length; i++)
+    //    {
+    //        Player p = players[i].GetComponent<Player>();
+    //        print("playerid:" +i+" "+p.getPlayerID());
+    //        if (p.isPlayerID(enemyID))
+    //        {
+    //            print("get pv");
+    //            return p.getPV();
+    //        }
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
     public void catchPlayer(Runner runner)
     {
         if(basePosition == Vector3.zero) 
