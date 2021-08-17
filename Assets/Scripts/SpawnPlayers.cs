@@ -12,7 +12,6 @@ public class SpawnPlayers : MonoBehaviour
     const string GAME_MANAGER_TAG = "GameManager";
 
     public GameObject playerPrefab;
-    public GameObject bouncePrefab;
     public GameObject enemyPrefab;
 
     //[SerializeField] Button startbtn;
@@ -38,7 +37,7 @@ public class SpawnPlayers : MonoBehaviour
             if (PhotonNetwork.IsMasterClient)
             {
 
-                Vector3 enemyPosition = new Vector3(1, 1.5f, 30); // 처음 시작할 때는 모두 러너
+                Vector3 enemyPosition = new Vector3(1, 1.5f, 36); // 처음 시작할 때는 모두 러너
                 PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
 
                 print("enemy instatiate");
@@ -47,7 +46,7 @@ public class SpawnPlayers : MonoBehaviour
             else
             {
 
-                Vector3 runnerPosition = new Vector3(1, 1.5f, -29); // 처음 시작할 때는 모두 러너
+                Vector3 runnerPosition = new Vector3(1, 1.5f, -39); // 처음 시작할 때는 모두 러너
                 PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
 
                 print("runner instatiate");
