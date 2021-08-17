@@ -76,9 +76,9 @@ public class GameManager : MonoBehaviour
         }
 
         PhotonView PV = runner.getPV();
-        this.PV.RPC(CAUGHT_RUNNER, RpcTarget.All, runner.getPlayerID());
+        //this.PV.RPC(CAUGHT_RUNNER, RpcTarget.All, runner.getPlayerID()); // 잡힌 애들 저장하기
         Vector3 nextPosition = new Vector3(basePosition.x + runnerScale.x * caughtRunners.Count, basePosition.y, basePosition.z);
-        PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition);
+        PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition); // 술래 옆에 붙잡아 놓기 - 러너 코드에 rpc함수있음
     }
 
     

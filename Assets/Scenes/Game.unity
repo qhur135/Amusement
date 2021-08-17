@@ -673,6 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flowerState: {fileID: 2064641936}
+  enemyPrefab: {fileID: 932847557314802172, guid: 394b61243ec2f4304879700d038644c5, type: 3}
 --- !u!4 &1261246843
 Transform:
   m_ObjectHideFlags: 0
