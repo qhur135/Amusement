@@ -111,9 +111,5 @@ public class Player : MonoBehaviour
         print("this id??:"+id);
         return playerID == id;
     }
-    [PunRPC]
-    void enemyTurn()
-    {
-        transform.rotation = Quaternion.Euler(0, 180, 0);
-    }
+    
 }

@@ -12,7 +12,7 @@ public class Runner : Player
     bool godmode; // 무적 상태 - 움직여도 안걸림 
     bool passStartLine; 
     bool isCaught;
-
+    PhotonView PV;
     ////int caught_cnt = 0; 
     //int pos_temp; 
     //Vector3 caught_position; 
@@ -23,7 +23,7 @@ public class Runner : Player
 
     //}
 
- 
+
     public override void Awake()
     {
         base.Awake();
