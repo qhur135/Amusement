@@ -9,7 +9,7 @@ public class Runner : Player
     const string START_LINE_TAG = "StartLine";
 
     Vector3 lastPosition;
-    bool cannotMove; 
+    bool godmode; // 무적 상태 - 움직여도 안걸림 
     bool passStartLine; 
     bool isCaught;
 
@@ -27,7 +27,7 @@ public class Runner : Player
     public override void Awake()
     {
         base.Awake();
-        cannotMove = false; 
+        godmode =true; 
         passStartLine = false; 
         isCaught = false; 
     }
@@ -53,17 +53,17 @@ public class Runner : Player
         if (flowerMsgController.isFlowerEnd()) 
         {
             
-            if (!cannotMove)
+            if (godmode)
             {
                 lastPosition = transform.position; 
                 if (passStartLine)
                 {
-                    cannotMove = true; 
+                    godmode = false; 
                 }
             }
 
            
-            if (cannotMove && lastPosition != transform.position) 
+            if (!godmode && lastPosition != transform.position) 
             {
                 isCaught = true;
                 gameManager.catchPlayer(this);
@@ -85,8 +85,9 @@ public class Runner : Player
     void catchPlayer_RPC(Vector3 position)
     {
         transform.position = position;
+        transform.rotation = Quaternion.Euler(0, 180, 0);
         ableToMove = false;
-        cannotMove = false;
+        godmode = true;
         isCaught = true;
     }
 

@@ -6,13 +6,19 @@ using UnityEngine.UI;
 
 public class Enemy : Player
 {
+    //const
+    const string ENEMY_TURN = "enemyTurn";
+    const string FLOWER_MESSAGE_CONTROLLER_TAG = "FlowerMsgController";
+
+
     const string RUNNER_TAG = "Runner";
     const string ENEMY_TAG = "Enemy";
 
     public override void Awake()
     {
         base.Awake();
-        ableToMove = false; 
+        ableToMove = false;
+
     }
 
     public override void Update()
@@ -28,7 +34,10 @@ public class Enemy : Player
         {
             flowerMsgController.ResetFlower();
         }
-
+        if (flowerMsgController.isFlowerEnd())
+        {
+            PV.RPC(ENEMY_TURN,RpcTarget.All); // 플레이어 스크립트에 있음
+        }
         //if (spawn.gameTxt.text == "TOUCH")
         //{
         //    caughtTouched();
@@ -78,7 +87,11 @@ public class Enemy : Player
         gameObject.GetComponent<Runner>().enabled = true; // 스크립트 변경
         gameObject.GetComponent<Enemy>().enabled = false;
     }
-
+    [PunRPC]
+    void enemyTurn()
+    {
+        transform.rotation = Quaternion.Euler(0, 180, 0);
+    }
     //IEnumerator timeDelay(int delayTime)
     //{
     //    yield return new WaitForSeconds(delayTime);
