@@ -85,15 +85,22 @@ public class GameManager : MonoBehaviour
     {
         run();
         enemy();
+<<<<<<< Updated upstream
         //PV.RPC("colorChangeToEnemy", RpcTarget.All);
        
 
+=======
+>>>>>>> Stashed changes
     }
 
     void run()
     {
         PV.RPC("runnerSetting", RpcTarget.All);
+<<<<<<< Updated upstream
         
+=======
+
+>>>>>>> Stashed changes
     }
 
     void enemy()
@@ -141,12 +148,15 @@ public class GameManager : MonoBehaviour
         newEnemy.Awake();
     }
 
+<<<<<<< Updated upstream
     //[PunRPC]
     //void colorChangeToEnemy()
     //{
     //    GameObject enemy = GameObject.FindGameObjectWithTag(ENEMY_TAG);
     //    enemy.GetComponent<Renderer>().material.color = Color.red;
     //}
+=======
+>>>>>>> Stashed changes
 
     [PunRPC]
     public void catchPlayer_RPC(int playerID)

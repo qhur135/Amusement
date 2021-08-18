@@ -41,12 +41,19 @@ public class SpawnPlayers : MonoBehaviour
 
                 Vector3 enemyPosition = new Vector3(1, 1.5f, -30); // 처음 시작할 때는 모두 러너
                 GameObject gameO = PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
+<<<<<<< Updated upstream
         
                 GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
                 CameraManager cm = camera.GetComponent<CameraManager>();
                 cm.target = gameO.transform;
+=======
+>>>>>>> Stashed changes
 
-                print("enemy instatiate");
+                GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
+                CameraManager cm = camera.GetComponent<CameraManager>();
+                cm.target = gameO.transform;
+
+            print("enemy instatiate");
                 
             }
             else
@@ -54,12 +61,16 @@ public class SpawnPlayers : MonoBehaviour
 
                 Vector3 runnerPosition = new Vector3(1, 1.5f, -36); // 처음 시작할 때는 모두 러너
                 GameObject gameO = PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
+<<<<<<< Updated upstream
                 
+=======
+
+>>>>>>> Stashed changes
                 GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
                 CameraManager cm = camera.GetComponent<CameraManager>();
                 cm.target = gameO.transform;
 
-                print("runner instatiate");
+            print("runner instatiate");
                 //Vector3 runnerPosition = new Vector3(2, 1.5f, -36); // 처음 시작할 때는 모두 러너
                 //PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
 

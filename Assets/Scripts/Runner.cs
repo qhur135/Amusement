@@ -9,11 +9,16 @@ public class Runner : Player
     const string START_LINE_TAG = "StartLine";
     const string ENEMY_TAG = "Enemy";
     const string RUNNER_TAG = "Runner";
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
     Vector3 lastPosition;
     bool cannotMove; 
     bool passStartLine; 
     bool isCaught;
+<<<<<<< Updated upstream
  
     public override void Awake()
     {
@@ -30,6 +35,30 @@ public class Runner : Player
         isCaught = false;
 
         Debug.Log("Runner Start");
+=======
+    //PhotonView PV;
+    ////int caught_cnt = 0; 
+    //int pos_temp; 
+    //Vector3 caught_position; 
+
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+
+    //}
+
+
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
+    public void Start()
+    {
+        godmode = true;
+        passStartLine = false;
+        isCaught = false;
+>>>>>>> Stashed changes
     }
 
     public override void OnCollisionEnter(Collision collision)
@@ -64,6 +93,7 @@ public class Runner : Player
                 gameManager.catchPlayer(this);
             }
         }
+<<<<<<< Updated upstream
     }
 
     public void tagChange()
@@ -73,6 +103,8 @@ public class Runner : Player
     IEnumerator timeDelay(int delayTime)
     {
         yield return new WaitForSeconds(delayTime);
+=======
+>>>>>>> Stashed changes
     }
 
     [PunRPC]
@@ -97,12 +129,34 @@ public class Runner : Player
         {
             passStartLine = !passStartLine;
         }
+<<<<<<< Updated upstream
     }
 
+=======
+    }
+
+    public void tagChange()
+    {
+        PV.RPC("TagChange", RpcTarget.All);
+    }
+
+>>>>>>> Stashed changes
     [PunRPC]
     void TagChange()
     {
         gameObject.tag = ENEMY_TAG;
         gameObject.GetComponent<Renderer>().material.color = Color.red;
+<<<<<<< Updated upstream
     }
+=======
+    }
+
+
+
+
+    //IEnumerator timeDelay(int delayTime)
+    //{
+    //    yield return new WaitForSeconds(delayTime);
+    //}
+>>>>>>> Stashed changes
 }

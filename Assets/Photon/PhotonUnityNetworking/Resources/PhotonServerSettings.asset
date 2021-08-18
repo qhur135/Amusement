@@ -45,12 +45,19 @@ MonoBehaviour:
   - btncolorchange
   - btncolorchange_RPC
   - makeenemy_RPC
+<<<<<<< Updated upstream
   - colorChange
   - enemySetting
   - runnerSetting
   - colorChangeToRunner
   - colorChangetoEnemy
   - colorChangeToEnemy
+=======
+  - enemyTurn
+  - colorChangeToRunner
+  - enemySetting
+  - runnerSetting
+>>>>>>> Stashed changes
   - TagChange
   DisableAutoOpenWizard: 1
   ShowSettings: 0
