@@ -14,6 +14,7 @@ public class SpawnPlayers : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject bouncePrefab;
     public GameObject enemyPrefab;
+    public GameObject cameraPrefab;
 
     //[SerializeField] Button startbtn;
     PhotonView PV;
@@ -39,7 +40,11 @@ public class SpawnPlayers : MonoBehaviour
             {
 
                 Vector3 enemyPosition = new Vector3(1, 1.5f, -30); // 처음 시작할 때는 모두 러너
-                PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
+                GameObject gameO = PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
+        
+                GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
+                CameraManager cm = camera.GetComponent<CameraManager>();
+                cm.target = gameO.transform;
 
                 print("enemy instatiate");
                 
@@ -48,7 +53,11 @@ public class SpawnPlayers : MonoBehaviour
             {
 
                 Vector3 runnerPosition = new Vector3(1, 1.5f, -36); // 처음 시작할 때는 모두 러너
-                PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
+                GameObject gameO = PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
+                
+                GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
+                CameraManager cm = camera.GetComponent<CameraManager>();
+                cm.target = gameO.transform;
 
                 print("runner instatiate");
                 //Vector3 runnerPosition = new Vector3(2, 1.5f, -36); // 처음 시작할 때는 모두 러너
@@ -59,6 +68,8 @@ public class SpawnPlayers : MonoBehaviour
             }
         
     }
+
+    
     //public void btnOnClick()
     //{
     //    if (PhotonNetwork.IsMasterClient) // 방장이면 랜덤으로 애너미 고르도록

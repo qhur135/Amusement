@@ -81,7 +81,73 @@ public class GameManager : MonoBehaviour
         PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition);
     }
 
-    
+    public void restartGame()
+    {
+        run();
+        enemy();
+        //PV.RPC("colorChangeToEnemy", RpcTarget.All);
+       
+
+    }
+
+    void run()
+    {
+        PV.RPC("runnerSetting", RpcTarget.All);
+        
+    }
+
+    void enemy()
+    {
+        PV.RPC("enemySetting", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void runnerSetting()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].transform.position = new Vector3(runnerScale.x * i + 2, 1.5f, -36);
+
+            Debug.Log(players[i].transform.position);
+
+            players[i].GetComponent<Runner>().enabled = true; // 스크립트 변경
+            players[i].GetComponent<Enemy>().enabled = false;
+
+            Runner runner = players[i].GetComponent<Runner>();
+            runner.Awake();
+            runner.Start();
+        }
+
+        Debug.Log("After runner setting");
+
+    }
+
+    [PunRPC]
+    void enemySetting()
+    {
+        Debug.Log("Enemy setting start");
+
+        GameObject enemy = GameObject.FindGameObjectWithTag(ENEMY_TAG);
+
+        enemy.transform.position = new Vector3(1, 1.5f, 30);
+        Debug.Log(enemy.transform.position);
+
+        enemy.GetComponent<Enemy>().enabled = true;
+        enemy.GetComponent<Runner>().enabled = false;
+
+        Enemy newEnemy = enemy.GetComponent<Enemy>();
+        newEnemy.Awake();
+    }
+
+    //[PunRPC]
+    //void colorChangeToEnemy()
+    //{
+    //    GameObject enemy = GameObject.FindGameObjectWithTag(ENEMY_TAG);
+    //    enemy.GetComponent<Renderer>().material.color = Color.red;
+    //}
+
     [PunRPC]
     public void catchPlayer_RPC(int playerID)
     {

@@ -45,6 +45,13 @@ MonoBehaviour:
   - btncolorchange
   - btncolorchange_RPC
   - makeenemy_RPC
+  - colorChange
+  - enemySetting
+  - runnerSetting
+  - colorChangeToRunner
+  - colorChangetoEnemy
+  - colorChangeToEnemy
+  - TagChange
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
