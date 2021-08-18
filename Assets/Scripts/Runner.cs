@@ -103,5 +103,6 @@ public class Runner : Player
     void TagChange()
     {
         gameObject.tag = ENEMY_TAG;
+        gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
 }
