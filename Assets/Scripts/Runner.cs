@@ -26,17 +26,16 @@ public class Runner : Player
         isCaught = false;
         print("Runner Awake");
     }
-
-    public override void Start()
-    {
-        base.Start();
-    }
-
+    //public override void Start()
+    //{
+    //    base.Start();
+    //}
     public override void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
 
     }
+
 
     // Update is called once per frame
     public override void Update()

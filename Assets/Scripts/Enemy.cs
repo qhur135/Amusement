@@ -58,16 +58,17 @@ public class Enemy : Player
             }
             else
             {
-                print("Enemy catch runner"); 
+                print("Enemy catch runner");
+                Runner newE = collision.gameObject.GetComponent<Runner>();
+                newE.tagChange();
+
+                StartCoroutine(timeDelay(2));
+
+                PV.RPC("colorChangeToRunner", RpcTarget.All);
             }
         }
 
-        Runner newE = collision.gameObject.GetComponent<Runner>();
-        newE.tagChange();
-
-        StartCoroutine(timeDelay(2));
-
-        PV.RPC("colorChangeToRunner", RpcTarget.All);
+    
 
     }
 
