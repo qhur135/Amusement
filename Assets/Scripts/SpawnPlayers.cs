@@ -13,7 +13,7 @@ public class SpawnPlayers : MonoBehaviour
 
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
-    //public GameObject cameraPrefab;
+    public GameObject cameraPrefab;
 
     //[SerializeField] Button startbtn;
     PhotonView PV;
@@ -41,9 +41,9 @@ public class SpawnPlayers : MonoBehaviour
                 Vector3 enemyPosition = new Vector3(1, 1.5f, 36); // 방장 술랳
                 GameObject gameO =  PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
 
-                //GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
-                //CameraManager cm = camera.GetComponent<CameraManager>();
-                //cm.target = gameO.transform;
+                GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
+                CameraManager cm = camera.GetComponent<CameraManager>();
+                cm.target = gameO.transform;
 
                 print("enemy instatiate");
                 
@@ -54,9 +54,9 @@ public class SpawnPlayers : MonoBehaviour
                 Vector3 runnerPosition = new Vector3(1, 1.5f, -39); // 처음 시작할 때는 모두 러너
                 GameObject gameO =PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
 
-                //GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
-                //CameraManager cm = camera.GetComponent<CameraManager>();
-                //cm.target = gameO.transform;
+                GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
+                CameraManager cm = camera.GetComponent<CameraManager>();
+                cm.target = gameO.transform;
 
             print("runner instatiate");
             
