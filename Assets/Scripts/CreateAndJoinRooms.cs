@@ -10,11 +10,14 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public TMP_InputField createInput;
     public TMP_InputField joinInput;
 
-    
+    ObstacleManager obstaclemanager;
+
     //public TMP_InputField UserName;
 
     private void Start()
     {
+        obstaclemanager = new ObstacleManager();
+        print("hi");
         //PhotonNetwork.NickName = UserName.text;
     }
     public void CreateRoom()

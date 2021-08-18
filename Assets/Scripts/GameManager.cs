@@ -25,48 +25,6 @@ public class GameManager : MonoBehaviour
         playerIDs = new List<int>();
     }
 
-    //public int registerPlayer()
-    //{
-       
-    //    int playerID = Random.Range(1, 10000);
-    //    while (playerIDs.Contains(playerID))
-    //    {
-    //      playerID = Random.Range(1, 10000);
-    //    }
-    //    playerIDs.Add(playerID);
-
-    //    print("playerid generate");
-
-    //    return playerID;
-        
-    //}
-
-    //public PhotonView getEnemy() // ?? ???
-    //{
-    //    int playercount = playerIDs.Count;
-    //    print("player num:"+playercount);
-    //    int randomidx = Random.Range(0, playercount);
-    //    print("ramdomidx:"+randomidx);
-    //    int enemyID = playerIDs[randomidx];
-    //    print("enemyid:"+enemyID);
-    //    GameObject [] players = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
-    //    print("player object num:" + players.Length);
-    //    print("playerid[0]:" + playerIDs[0]);
-
-    //    print("playerid[1]:" + playerIDs[1]);
-    //    for (int i = 0; i < players.Length; i++)
-    //    {
-    //        Player p = players[i].GetComponent<Player>();
-    //        print("playerid:" +i+" "+p.getPlayerID());
-    //        if (p.isPlayerID(enemyID))
-    //        {
-    //            print("get pv");
-    //            return p.getPV();
-    //        }
-    //    }
-
-    //    return null;
-    //}
     public void catchPlayer(Runner runner)
     {
         if(basePosition == Vector3.zero) 
@@ -76,31 +34,23 @@ public class GameManager : MonoBehaviour
         }
 
         PhotonView PV = runner.getPV();
-        this.PV.RPC(CAUGHT_RUNNER, RpcTarget.All, runner.getPlayerID());
+        //this.PV.RPC(CAUGHT_RUNNER, RpcTarget.All, runner.getPlayerID()); // 잡힌 애들 저장하기
         Vector3 nextPosition = new Vector3(basePosition.x + runnerScale.x * caughtRunners.Count, basePosition.y, basePosition.z);
-        PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition);
+        PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition); // 술래 옆에 붙잡아 놓기 - 러너 코드에 rpc함수있음
     }
-
     public void restartGame()
     {
         run();
         enemy();
-<<<<<<< Updated upstream
         //PV.RPC("colorChangeToEnemy", RpcTarget.All);
-       
 
-=======
->>>>>>> Stashed changes
+
     }
 
     void run()
     {
         PV.RPC("runnerSetting", RpcTarget.All);
-<<<<<<< Updated upstream
-        
-=======
 
->>>>>>> Stashed changes
     }
 
     void enemy()
@@ -124,7 +74,7 @@ public class GameManager : MonoBehaviour
 
             Runner runner = players[i].GetComponent<Runner>();
             runner.Awake();
-            runner.Start();
+            //runner.Start();
         }
 
         Debug.Log("After runner setting");
@@ -148,15 +98,6 @@ public class GameManager : MonoBehaviour
         newEnemy.Awake();
     }
 
-<<<<<<< Updated upstream
-    //[PunRPC]
-    //void colorChangeToEnemy()
-    //{
-    //    GameObject enemy = GameObject.FindGameObjectWithTag(ENEMY_TAG);
-    //    enemy.GetComponent<Renderer>().material.color = Color.red;
-    //}
-=======
->>>>>>> Stashed changes
 
     [PunRPC]
     public void catchPlayer_RPC(int playerID)

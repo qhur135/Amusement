@@ -12,7 +12,6 @@ public class SpawnPlayers : MonoBehaviour
     const string GAME_MANAGER_TAG = "GameManager";
 
     public GameObject playerPrefab;
-    public GameObject bouncePrefab;
     public GameObject enemyPrefab;
     public GameObject cameraPrefab;
 
@@ -39,48 +38,32 @@ public class SpawnPlayers : MonoBehaviour
             if (PhotonNetwork.IsMasterClient)
             {
 
-                Vector3 enemyPosition = new Vector3(1, 1.5f, -30); // 처음 시작할 때는 모두 러너
-                GameObject gameO = PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
-<<<<<<< Updated upstream
-        
-                GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
-                CameraManager cm = camera.GetComponent<CameraManager>();
-                cm.target = gameO.transform;
-=======
->>>>>>> Stashed changes
+                Vector3 enemyPosition = new Vector3(1, 1.5f, 36); // 방장 술랳
+                GameObject gameO =  PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
 
                 GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
                 CameraManager cm = camera.GetComponent<CameraManager>();
                 cm.target = gameO.transform;
 
-            print("enemy instatiate");
+                print("enemy instatiate");
                 
             }
             else
             {
 
-                Vector3 runnerPosition = new Vector3(1, 1.5f, -36); // 처음 시작할 때는 모두 러너
-                GameObject gameO = PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
-<<<<<<< Updated upstream
-                
-=======
+                Vector3 runnerPosition = new Vector3(1, 1.5f, -39); // 처음 시작할 때는 모두 러너
+                GameObject gameO =PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
 
->>>>>>> Stashed changes
                 GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
                 CameraManager cm = camera.GetComponent<CameraManager>();
                 cm.target = gameO.transform;
 
             print("runner instatiate");
-                //Vector3 runnerPosition = new Vector3(2, 1.5f, -36); // 처음 시작할 때는 모두 러너
-                //PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
-
-                //print("client runner instatiate");
+            
 
             }
         
     }
-
-    
     //public void btnOnClick()
     //{
     //    if (PhotonNetwork.IsMasterClient) // 방장이면 랜덤으로 애너미 고르도록

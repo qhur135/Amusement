@@ -46,7 +46,6 @@ public class Player : MonoBehaviour
         //}
     }
 
-<<<<<<< Updated upstream
     //public virtual void Start()
     //{
     //    //카메라 분리
@@ -54,15 +53,6 @@ public class Player : MonoBehaviour
     //    {
     //        Destroy(GetComponentInChildren<Camera>().gameObject); // 내꺼가 아니면 카메라 파괴 -> 카메라 2개 남음
     //    }
-=======
-    //public virtual void Start()
-    //{
-    //    //카메라 분리
-    //    if (!PV.IsMine) // 플레이어와 애너미에 카메라 모두 붙어있는 상태에서(카메라 4개 생성)
-    //    {
-    //        Destroy(GetComponentInChildren<Camera>().gameObject); // 내꺼가 아니면 카메라 파괴 -> 카메라 2개 남음
-    //    }
->>>>>>> Stashed changes
     //}
 
     // Update is called once per frame
@@ -121,4 +111,5 @@ public class Player : MonoBehaviour
         print("this id??:"+id);
         return playerID == id;
     }
+    
 }
