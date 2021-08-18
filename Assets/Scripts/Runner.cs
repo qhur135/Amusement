@@ -7,21 +7,15 @@ public class Runner : Player
 {
 
     const string START_LINE_TAG = "StartLine";
+    const string ENEMY_TAG = "Enemy";
+    const string RUNNER_TAG = "Runner";
+
 
     Vector3 lastPosition;
     bool godmode; // 무적 상태 - 움직여도 안걸림 
     bool passStartLine; 
     bool isCaught;
-    PhotonView PV;
-    ////int caught_cnt = 0; 
-    //int pos_temp; 
-    //Vector3 caught_position; 
-
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-
-    //}
+  
 
 
     public override void Awake()
@@ -29,7 +23,8 @@ public class Runner : Player
         base.Awake();
         godmode =true; 
         passStartLine = false; 
-        isCaught = false; 
+        isCaught = false;
+        print("Runner Awake");
     }
 
     public override void Start()
@@ -69,16 +64,14 @@ public class Runner : Player
                 gameManager.catchPlayer(this);
             }
         }
-
-        //if (spawn.gameTxt.text == "Enemy Win !")
-        //{
-        //    StartCoroutine(gameEnd());
-        //}
-        //if (spawn.gameTxt.text == "TOUCH" && spawn.caught_cnt > 0)
-        //{
-        //    caughtTouched();
-
-        //}
+    }
+    public void tagChange()
+    {
+        PV.RPC("TagChange", RpcTarget.All);
+    }
+    IEnumerator timeDelay(int delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
     }
 
     [PunRPC]
@@ -106,82 +99,10 @@ public class Runner : Player
         }
     }
 
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if(other.tag == "StartLine")
-    //    {
-    //        gameObject.tag = "Active";
-    //    }
-    //}
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if(collision.gameObject.tag == "Caught")
-    //    {
-    //        Debug.Log("player touch caught player");
-    //        spawn.gameTxt.text = "TOUCH";
-    //        spawn.chageGameTxt();
-    //        StartCoroutine(timeDelay(3));
-    //        spawn.gameTxt.text = "";
-    //        spawn.chageGameTxt();
-    //    }
-    //    if (collision.gameObject.tag == "Enemy") // ?????????? ?????? ?????? ?????? ????
-    //    {
-    //        if (collision.gameObject.GetComponent<PlayerCtrl>().enabled == false)
-    //        {
-    //            Debug.Log("player touch enemy");
-    //            spawn.gameTxt.text = "TOUCH";
-    //            spawn.chageGameTxt();
-    //            collision.gameObject.GetComponent<PlayerCtrl>().enabled = true;
-    //            StartCoroutine(timeDelay(3));
-    //            spawn.gameTxt.text = "";
-    //            spawn.chageGameTxt();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Enemy catch player");
-    //            gameObject.tag = "Enemy";
-
-    //            //spawn.gameTxt.text = "ENEMY WIN !";
-    //            //spawn.chageGameTxt();
-    //            //StartCoroutine(timeDelay(3));
-    //            //spawn.gameTxt.text = "START !";
-    //            //spawn.chageGameTxt();
-    //            //StopCoroutine(timeDelay(3));
-    //            //spawn.gameTxt.text = "";
-    //            //spawn.chageGameTxt();
-    //        }
-
-    //    }
-    //}
-
-    //IEnumerator gameEnd()
-    //{
-    //    yield return new WaitForSeconds(1);
-
-    //    if(gameObject.tag == "Enemy")
-    //    {
-    //        //chage position to Enemy's default position;
-    //        gameObject.transform.position = new Vector3(1, 2, 28);
-    //    }
-    //    else
-    //    {
-    //        //change position to startLine
-    //        gameObject.tag = "NonActive";
-    //        gameObject.transform.position = new Vector3(1, 1.5f, -36);
-    //    }
-    //}
-
-    //IEnumerator timeDelay(int delayTime)
-    //{
-    //    yield return new WaitForSeconds(delayTime);
-    //}
-
-
-    //private void caughtTouched()
-    //{
-    //    gameObject.tag = "Acitve";
-
-    //    gameObject.GetComponent<PlayerCtrl>().enabled = true; // ?????? ???? ?????? ???? ???? ???????? ???????? ??
-    //}
+    [PunRPC]
+    void TagChange()
+    {
+        gameObject.tag = ENEMY_TAG;
+        gameObject.GetComponent<Renderer>().material.color = Color.red;
+    }
 }
