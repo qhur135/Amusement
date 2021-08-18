@@ -17,7 +17,9 @@ public class Enemy : Player
     public override void Awake()
     {
         base.Awake();
+        if (!PV.IsMine) return;
         ableToMove = false;
+        print("Enemy Awake");
 
     }
 
@@ -36,34 +38,37 @@ public class Enemy : Player
         }
         if (flowerMsgController.isFlowerEnd())
         {
-            PV.RPC(ENEMY_TURN,RpcTarget.All); // 플레이어 스크립트에 있음
+            PV.RPC(ENEMY_TURN, RpcTarget.All); // 플레이어 스크립트에 있음
         }
-        //if (spawn.gameTxt.text == "TOUCH")
-        //{
-        //    caughtTouched();
-        //}
-
-        //if (spawn.gameTxt.text == "ENEMY WIN !")
-        //{
-        //    enemyWin();
-        //}
     }
 
-    public override void OnCollisionEnter(Collision collision)
+    public override void OnCollisionEnter(Collision collision) // oncollisionEnter은 계속 호출되서 터치하고 때는 순간 한번 호출되도록
     {
-        if (!PV.IsMine || gameObject.tag != ENEMY_TAG) return;
+        
         base.OnCollisionEnter(collision);
 
-        if (collision.gameObject.tag.Equals(RUNNER_TAG) && !ableToMove)
+        if (!PV.IsMine) return;
+
+        if(collision.gameObject.tag.Equals(RUNNER_TAG))
         {
-            ableToMove = true;
-            Debug.Log("Runner touch enemy");
+            if (!ableToMove)
+            {
+                ableToMove = true; // 애너미 움직이게 됨
+                print("Runner touch enemy");
+            }
+            else
+            {
+                print("Enemy catch runner"); 
+            }
         }
-        else if (collision.gameObject.tag.Equals(RUNNER_TAG) && ableToMove)
-        {
-            Debug.Log("Enemy catch a runner");
-            
-        }
+
+        Runner newE = collision.gameObject.GetComponent<Runner>();
+        newE.tagChange();
+
+        StartCoroutine(timeDelay(2));
+
+        PV.RPC("colorChangeToRunner", RpcTarget.All);
+
     }
 
     public override void FixedUpdate()
@@ -73,29 +78,28 @@ public class Enemy : Player
         base.FixedUpdate();
     }
 
-    void changeEnemy(Collision collision)
+    IEnumerator timeDelay(int delayTime)
     {
-        collision.gameObject.tag = ENEMY_TAG;
-        collision.gameObject.GetComponent<Runner>().enabled = false;
-        collision.gameObject.GetComponent<Enemy>().enabled = true;
-        collision.gameObject.transform.position = new Vector3(1, 1.5f, 30);
-        collision.gameObject.GetComponent<Renderer>().material.color = Color.red;
+        yield return new WaitForSeconds(delayTime);
+    }
 
+    [PunRPC]
+    void colorChangeToRunner()
+    {
         gameObject.tag = RUNNER_TAG;
-        gameObject.transform.position = new Vector3(2, 1.5f, -36);
-        gameObject.GetComponent<Renderer>().material.color = Color.blue; // 색 변경
-        gameObject.GetComponent<Runner>().enabled = true; // 스크립트 변경
-        gameObject.GetComponent<Enemy>().enabled = false;
+        Debug.Log(gameObject.tag);
+
+        //StartCoroutine(timeDelay(2));
+        gameManager.restartGame();
+
+        gameObject.GetComponent<Renderer>().material.color = Color.blue;
     }
     [PunRPC]
     void enemyTurn()
     {
         transform.rotation = Quaternion.Euler(0, 180, 0);
     }
-    //IEnumerator timeDelay(int delayTime)
-    //{
-    //    yield return new WaitForSeconds(delayTime);
-    //}
+   
 
     //private void enemyWin()
     //{
