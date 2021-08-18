@@ -19,7 +19,6 @@ public class Enemy : Player
         base.Awake();
         if (!PV.IsMine) return;
         ableToMove = false;
-        print("Enemy Awake");
 
     }
 
