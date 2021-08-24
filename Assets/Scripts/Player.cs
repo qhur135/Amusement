@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     const string GAME_MANAGER_TAG = "GameManager";
 
     //SerializeField
-    [SerializeField] float speed = 3f, jumpPower = 30f;
+    [SerializeField] float speed = 5f, jumpPower = 5f;
     
     //protected
     protected FlowerMsgController flowerMsgController;
@@ -22,7 +22,11 @@ public class Player : MonoBehaviour
     ////private
     private int jumpCount = 2;
     private Vector3 movement;
+    private bool isJumping;
     private int playerID;
+    private Rigidbody rb;
+    private float horizonal;
+    private float vertical;
 
     public virtual void Awake() {
         //flowerMsgController 초기화
@@ -39,6 +43,12 @@ public class Player : MonoBehaviour
 
         //movement 초기화
         movement = Vector3.zero;
+
+        // rb 초기화
+        rb = GetComponent<Rigidbody>();
+
+        // 점프상태 초기화
+        isJumping = false;
 
         //if (PV.IsMine)
         //{
@@ -60,24 +70,29 @@ public class Player : MonoBehaviour
     {
         // 내꺼만 움직이도록
         if (!PV.IsMine) return;
-        Move();
-        Jump();
+
+        // 키 입력 받기
+        horizonal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+        if (Input.GetButtonDown("Jump") == true && jumpCount > 0)
+           isJumping = true;
     }
 
     public virtual void Move()
     {
-        float horizonal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
         movement = new Vector3(horizonal, 0f, vertical);
+        movement = movement.normalized * speed * Time.deltaTime;
+        rb.MovePosition(transform.position + movement); // 현재위치 + 움직인 위치
     }
 
     public virtual void Jump()
     {
-        if (Input.GetButtonDown("Jump") == true && jumpCount > 0)
-        {
-            movement = new Vector3(movement.x, jumpPower, movement.z);
-            jumpCount--;
-        }
+        if (!isJumping)
+            return;
+
+        rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+        isJumping = false;
+        jumpCount--;
     }
 
     public virtual void FixedUpdate()
@@ -85,8 +100,14 @@ public class Player : MonoBehaviour
         if (!PV.IsMine) return; // 내가 아니면 이동하지 않기
         if (!ableToMove) return;// nonactive 상태면 이동하지 않기
 
-        //LERP 해줘야함
-        transform.Translate(movement * Time.fixedDeltaTime * speed); // 나라면 이동하기
+        // 물리적 처리
+        Move();
+        Jump();
+
+        //transform.Translate(movement * Time.fixedDeltaTime * speed); // 나라면 이동하기
+
+        // lerp - 부드럽게 이동, 점프
+        //transform.position = Vector3.Lerp(transform.position, movement, Time.fixedDeltaTime);
     }
 
     public virtual void OnCollisionEnter(Collision collision)

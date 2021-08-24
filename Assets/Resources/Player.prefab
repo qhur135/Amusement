@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  jumpPower: 30
+  jumpPower: 5
 --- !u!114 &1746202098088379621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  jumpPower: 30
+  jumpPower: 5
 --- !u!20 &-8820891470482163671
 Camera:
   m_ObjectHideFlags: 0
