@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  jumpPower: 30
+  jumpPower: 5
 --- !u!114 &-2962492212729148758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  jumpPower: 30
+  jumpPower: 5
 --- !u!1 &8870241190777818642
 GameObject:
   m_ObjectHideFlags: 0
