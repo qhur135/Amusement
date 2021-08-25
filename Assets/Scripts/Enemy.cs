@@ -37,7 +37,7 @@ public class Enemy : Player
         }
         if (flowerMsgController.isFlowerEnd())
         {
-            PV.RPC(ENEMY_TURN, RpcTarget.All); // 플레이어 스크립트에 있음
+            PV.RPC(ENEMY_TURN, RpcTarget.All); // 멘트 모두 외치고 러너 바라보도록
         }
     }
 
@@ -63,7 +63,8 @@ public class Enemy : Player
 
                 StartCoroutine(timeDelay(2));
 
-                PV.RPC("colorChangeToRunner", RpcTarget.All);
+                PV.RPC("colorChangeToRunner", RpcTarget.All); // 러너가 된다
+                PV.RPC(ENEMY_TURN, RpcTarget.All); // 러너가 되어서 애너미를 바라봄
             }
         }
 
@@ -97,7 +98,10 @@ public class Enemy : Player
     [PunRPC]
     void enemyTurn()
     {
-        transform.rotation = Quaternion.Euler(0, 180, 0);
+        float view = transform.rotation.z;
+        view = (view + 180) > 180 ? 0 : 180;
+        print(view);
+        transform.rotation = Quaternion.Euler(0, view, 0);
     }
    
 

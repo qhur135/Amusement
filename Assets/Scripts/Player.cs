@@ -98,12 +98,12 @@ public class Player : MonoBehaviour
         if (speedup)
         {
             speed = 10f; // 빨라지도록
-            print("speedup!");
+            //print("speedup!");
         }
         else
         {
             speed = 5f;
-            print("origin speed");
+            //print("origin speed");
         }
         movement = new Vector3(horizonal, 0f, vertical);
         movement = movement.normalized * speed * Time.deltaTime;
