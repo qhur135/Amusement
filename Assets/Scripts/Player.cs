@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     protected PhotonView PV;
     protected bool ableToMove; // active or nonactive
 
-    ////private
+    //private
     private int jumpCount = 2;
     private Vector3 movement;
     private bool isJumping;
@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private float horizonal;
     private float vertical;
+    private bool speedup;
 
     public virtual void Awake() {
         //flowerMsgController 초기화
@@ -49,6 +50,9 @@ public class Player : MonoBehaviour
 
         // 점프상태 초기화
         isJumping = false;
+
+        // 스피트상태 초기화
+        speedup = false;
 
         //if (PV.IsMine)
         //{
@@ -76,10 +80,31 @@ public class Player : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
         if (Input.GetButtonDown("Jump") == true && jumpCount > 0)
            isJumping = true;
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            speedup = true; // 빨라지도록
+            //print("true");
+        }
+        else if(Input.GetKeyUp(KeyCode.X))
+        {
+            speedup = false;
+            //print("false");
+        }
     }
 
     public virtual void Move()
     {
+        if (speedup)
+        {
+            speed = 10f; // 빨라지도록
+            print("speedup!");
+        }
+        else
+        {
+            speed = 5f;
+            print("origin speed");
+        }
         movement = new Vector3(horizonal, 0f, vertical);
         movement = movement.normalized * speed * Time.deltaTime;
         rb.MovePosition(transform.position + movement); // 현재위치 + 움직인 위치
@@ -90,7 +115,7 @@ public class Player : MonoBehaviour
         if (!isJumping)
             return;
 
-        rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse); // 점프 내려오는 속도가 느린 문제..? 조금 더 빨리 내려오도록..?
         isJumping = false;
         jumpCount--;
     }
