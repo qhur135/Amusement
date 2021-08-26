@@ -30,12 +30,6 @@ public class Runner : Player
     //{
     //    base.Start();
     //}
-    public override void OnCollisionEnter(Collision collision)
-    {
-        base.OnCollisionEnter(collision);
-
-    }
-
 
     // Update is called once per frame
     public override void Update()
@@ -81,6 +75,8 @@ public class Runner : Player
         ableToMove = false;
         godmode = true;
         isCaught = true;
+
+        Debug.Log("Caughted");
     }
 
     public override void FixedUpdate()

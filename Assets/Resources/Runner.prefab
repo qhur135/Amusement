@@ -188,6 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   jumpPower: 5
+  cam: {fileID: 0}
 --- !u!114 &-2962492212729148758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   jumpPower: 5
+  cam: {fileID: 0}
 --- !u!1 &8870241190777818642
 GameObject:
   m_ObjectHideFlags: 0
