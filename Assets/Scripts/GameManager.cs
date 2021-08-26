@@ -42,9 +42,6 @@ public class GameManager : MonoBehaviour
     {
         run();
         enemy();
-        //PV.RPC("colorChangeToEnemy", RpcTarget.All);
-
-
     }
 
     void run()
@@ -69,29 +66,30 @@ public class GameManager : MonoBehaviour
 
             Debug.Log(players[i].transform.position);
 
-            players[i].GetComponent<Runner>().enabled = true; // 스크립트 변경
-            players[i].GetComponent<Enemy>().enabled = false;
+            if (players[i].GetComponent<Enemy>().enabled)
+            {
+                players[i].GetComponent<Runner>().enabled = true;
+                players[i].GetComponent<Runner>().cam = players[i].GetComponent<Enemy>().cam;
+                players[i].GetComponent<Enemy>().enabled = false;
+            }
 
             Runner runner = players[i].GetComponent<Runner>();
             runner.Awake();
             //runner.Start();
         }
 
-        Debug.Log("After runner setting");
-
     }
 
     [PunRPC]
     void enemySetting()
     {
-        Debug.Log("Enemy setting start");
-
         GameObject enemy = GameObject.FindGameObjectWithTag(ENEMY_TAG);
 
         enemy.transform.position = new Vector3(1, 1.5f, 30);
         Debug.Log(enemy.transform.position);
 
         enemy.GetComponent<Enemy>().enabled = true;
+        enemy.GetComponent<Enemy>().cam = enemy.GetComponent<Runner>().cam;
         enemy.GetComponent<Runner>().enabled = false;
 
         Enemy newEnemy = enemy.GetComponent<Enemy>();
