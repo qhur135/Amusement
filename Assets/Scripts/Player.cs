@@ -96,6 +96,11 @@ public class Player : MonoBehaviour
         Vector3 h2 = h * cam.transform.right; //Horizontal axis to which I want to move with respect to the camera
         moveDir = (v2 + h2).normalized; //Global position to which I want to move in magnitude 1
 
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            speedup = true;
+        }
+
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, distToGround + 0.1f))
         {
@@ -133,8 +138,16 @@ public class Player : MonoBehaviour
             {
                 // Calculate how fast we should be moving
                 Vector3 targetVelocity = moveDir;
-                targetVelocity *= speed;
 
+                if (speedup)
+                {
+                    targetVelocity *= 20.0f;
+                }
+                else
+                {
+                    targetVelocity *= speed;
+                }
+                
                 // Apply a force that attempts to reach our target velocity
                 Vector3 velocity = rb.velocity;
                 if (targetVelocity.magnitude < velocity.magnitude) //If I'm slowing down the character
