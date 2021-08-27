@@ -35,8 +35,11 @@ public class GameManager : MonoBehaviour
 
         PhotonView PV = runner.getPV();
         //this.PV.RPC(CAUGHT_RUNNER, RpcTarget.All, runner.getPlayerID()); // 잡힌 애들 저장하기
-        Vector3 nextPosition = new Vector3(basePosition.x + runnerScale.x * caughtRunners.Count, basePosition.y, basePosition.z);
-        PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition); // 술래 옆에 붙잡아 놓기 - 러너 코드에 rpc함수있음
+        //Vector3 nextPosition = new Vector3(basePosition.x + runnerScale.x * caughtRunners.Count, basePosition.y, basePosition.z);
+        Vector3 nextPosition = new Vector3(basePosition.x + runnerScale.x*2 , basePosition.y, basePosition.z);
+
+        //print("catch player");
+        PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition); // 술래 옆에 붙잡아 놓기 , 러너 스크립트에 있
     }
     public void restartGame()
     {
@@ -62,7 +65,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < players.Length; i++)
         {
-            players[i].transform.position = new Vector3(runnerScale.x * i + 2, 1.5f, -36);
+            players[i].transform.position = new Vector3(runnerScale.x * i + 2, 1.5f, -42);
 
             Debug.Log(players[i].transform.position);
 
@@ -97,9 +100,9 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [PunRPC]
-    public void catchPlayer_RPC(int playerID)
-    {
-        caughtRunners.Add(playerID);
-    }
+    //[PunRPC]
+    //public void catchPlayer_RPC(int playerID)
+    //{
+    //    caughtRunners.Add(playerID);
+    //}
 }

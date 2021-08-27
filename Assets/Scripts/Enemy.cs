@@ -98,7 +98,7 @@ public class Enemy : Player
     {
         float view = transform.rotation.z;
         view = (view + 180) > 180 ? 0 : 180;
-        print(view);
+        // print(view);
         transform.rotation = Quaternion.Euler(0, view, 0);
     }
 
