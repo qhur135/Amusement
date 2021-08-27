@@ -32,31 +32,40 @@ public class Runner : Player
     //}
 
     // Update is called once per frame
+    public bool IsRunnerCaught()
+    {
+        return isCaught;
+    }
     public override void Update()
     {
         if (!PV.IsMine) return;
         base.Update();
 
-       
-        if (flowerMsgController.isFlowerEnd()) 
+        if (passStartLine)
         {
-            
-            if (godmode)
-            {
-                lastPosition = transform.position; 
-                if (passStartLine)
-                {
-                    godmode = false; 
-                }
-            }
+            godmode = false; // 선 지나면 무적 상태 풀림
+        }
+        else // 선안으로 다시 들어가면 무적모드 된다
+        {
+            godmode = true;
+        }
 
-           
-            if (!godmode && lastPosition != transform.position) 
+       
+        if (flowerMsgController.isFlowerEnd())
+        { 
+            if (!isCaught && !godmode && lastPosition != transform.position) 
             {
                 isCaught = true;
+                print("딱걸렸어!");
                 gameManager.catchPlayer(this);
             }
         }
+        else // 멘트 다 외치기 전에 계속해서 최근 위치 업데이트
+        {
+             lastPosition = transform.position;
+             //print("position update");   
+        }
+
     }
     public void tagChange()
     {
@@ -90,6 +99,7 @@ public class Runner : Player
     {
         if (other.gameObject.tag.Equals(START_LINE_TAG))
         {
+            print("pass start line");
             passStartLine = !passStartLine;
         }
     }

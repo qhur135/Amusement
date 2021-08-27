@@ -6,27 +6,44 @@ using Photon.Pun;
 public class GameManager : MonoBehaviour
 {
     const string CAUGHT_RUNNER = "catchPlayer_RPC";
+    const string APEEND_PLAYER = "appendPlayer_RPC";
     const string ENEMY_TAG = "Enemy";
     const string RUNNER_TAG = "Runner";
     const float GAP = 0.5f;
 
     List<int> caughtRunners;
-    List<int> playerIDs;
+    List<string> playerIDs;
 
     Player Players;
     PhotonView PV;
+    GameObject[] RunnerObj;
+    int caughtcnt;
 
     Vector3 basePosition, runnerScale;
 
     private void Awake()
     {
+        caughtcnt = 0;
+
         PV = GetComponent<PhotonView>();
         caughtRunners = new List<int>();
-        playerIDs = new List<int>();
+        playerIDs = new List<string>();
     }
-
+    public void appendPlayer(string id)
+    {
+        PV.RPC(APEEND_PLAYER, RpcTarget.All, id);
+    }
+    public void printallplayers()
+    {
+        for(int i = 0; i < playerIDs.Count; i++)
+        {
+            print(playerIDs.Count);
+            print(playerIDs[i]);
+        }
+    }
     public void catchPlayer(Runner runner)
     {
+        caughtcnt = 0;
         if(basePosition == Vector3.zero) 
         {
             basePosition = GameObject.FindWithTag(ENEMY_TAG).transform.position;
@@ -34,9 +51,26 @@ public class GameManager : MonoBehaviour
         }
 
         PhotonView PV = runner.getPV();
+
+        RunnerObj = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
+        
+        for (int i = 0; i < RunnerObj.Length; i++)
+        {
+            if (RunnerObj[i].GetComponent<Runner>().IsRunnerCaught()) // 잡힌 러너라면 카운트
+            {
+                caughtcnt = caughtcnt + 1;
+                print("caught cnt up");
+            }
+        }
         //this.PV.RPC(CAUGHT_RUNNER, RpcTarget.All, runner.getPlayerID()); // 잡힌 애들 저장하기
-        Vector3 nextPosition = new Vector3(basePosition.x + runnerScale.x * caughtRunners.Count, basePosition.y, basePosition.z);
-        PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition); // 술래 옆에 붙잡아 놓기 - 러너 코드에 rpc함수있음
+        print(caughtcnt);
+        print(basePosition.z);
+        //Vector3 nextPosition = new Vector3(basePosition.x + runnerScale.x * caughtRunners.Count, basePosition.y, basePosition.z);
+        Vector3 nextPosition = new Vector3(basePosition.x + runnerScale.x*2*caughtcnt , basePosition.y, basePosition.z);
+        
+
+        //print("catch player");
+        PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition); // 술래 옆에 붙잡아 놓기 , 러너 스크립트에 있
     }
     public void restartGame()
     {
@@ -54,26 +88,32 @@ public class GameManager : MonoBehaviour
     {
         PV.RPC("enemySetting", RpcTarget.All);
     }
+    [PunRPC]
+    void appendPlayer_RPC(string id)
+    {
+        print("id append rpc");
+        playerIDs.Add(id);
+    }
 
     [PunRPC]
     void runnerSetting()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
+        //GameObject[] players = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
 
-        for (int i = 0; i < players.Length; i++)
+        for (int i = 0; i < RunnerObj.Length; i++)
         {
-            players[i].transform.position = new Vector3(runnerScale.x * i + 2, 1.5f, -36);
+            RunnerObj[i].transform.position = new Vector3(runnerScale.x * i + 2, 1.5f, -42);
 
-            Debug.Log(players[i].transform.position);
+            Debug.Log(RunnerObj[i].transform.position);
 
-            if (players[i].GetComponent<Enemy>().enabled)
+            if (RunnerObj[i].GetComponent<Enemy>().enabled)
             {
-                players[i].GetComponent<Runner>().enabled = true;
-                players[i].GetComponent<Runner>().cam = players[i].GetComponent<Enemy>().cam;
-                players[i].GetComponent<Enemy>().enabled = false;
+                RunnerObj[i].GetComponent<Runner>().enabled = true;
+                RunnerObj[i].GetComponent<Runner>().cam = RunnerObj[i].GetComponent<Enemy>().cam;
+                RunnerObj[i].GetComponent<Enemy>().enabled = false;
             }
 
-            Runner runner = players[i].GetComponent<Runner>();
+            Runner runner = RunnerObj[i].GetComponent<Runner>();
             runner.Awake();
             //runner.Start();
         }
@@ -97,9 +137,9 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [PunRPC]
-    public void catchPlayer_RPC(int playerID)
-    {
-        caughtRunners.Add(playerID);
-    }
+    //[PunRPC]
+    //public void catchPlayer_RPC(int playerID)
+    //{
+    //    caughtRunners.Add(playerID);
+    //}
 }

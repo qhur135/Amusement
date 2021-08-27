@@ -50,6 +50,8 @@ MonoBehaviour:
   - enemySetting
   - runnerSetting
   - TagChange
+  - appendPlayer_RPC
+  - setplayerID_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

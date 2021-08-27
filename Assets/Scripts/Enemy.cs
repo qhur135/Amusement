@@ -25,8 +25,8 @@ public class Enemy : Player
     public override void Update()
     {
         if (!PV.IsMine) return;
-        base.Update(); 
-        
+        base.Update();
+
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             flowerMsgController.CountFlowerOnce();
@@ -46,7 +46,7 @@ public class Enemy : Player
 
         if (!PV.IsMine) return;
 
-        if(collision.gameObject.tag.Equals(RUNNER_TAG))
+        if (collision.gameObject.tag.Equals(RUNNER_TAG))
         {
             if (!ableToMove)
             {
@@ -67,7 +67,7 @@ public class Enemy : Player
                 StartCoroutine(timeDelay(3));
             }
         }
-    
+
     }
 
     public override void FixedUpdate()
@@ -98,8 +98,8 @@ public class Enemy : Player
     {
         float view = transform.rotation.z;
         view = (view + 180) > 180 ? 0 : 180;
-        print(view);
+        // print(view);
         transform.rotation = Quaternion.Euler(0, view, 0);
     }
-   
+
 }

@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
     //const
     const string FLOWER_MESSAGE_CONTROLLER_TAG = "FlowerMsgController";
     const string GAME_MANAGER_TAG = "GameManager";
+
+
+    public GameObject cam;
 
     //SerializeField
     [SerializeField] float speed = 11.0f, jumpPower = 2.0f;
@@ -20,7 +24,7 @@ public class Player : MonoBehaviour
     protected bool ableToMove; // active or nonactive
 
     //private
-    private int playerID;
+    private string playerID;
     private Rigidbody rb;
     private bool speedup;
 
@@ -30,7 +34,6 @@ public class Player : MonoBehaviour
     private float maxFallSpeed = 20.0f;
     private float rotateSpeed = 25f; //Speed the player rotate
     private Vector3 moveDir;
-    public GameObject cam;
 
     private float distToGround;
 
@@ -63,7 +66,9 @@ public class Player : MonoBehaviour
         // 스피트상태 초기화
         speedup = false;
 
-        rb.useGravity = false;
+        rb.useGravity = false; // ??
+
+ 
 
         //if (PV.IsMine)
         //{
@@ -260,17 +265,30 @@ public class Player : MonoBehaviour
     {
         return PV;
     }
+    public void setplayerID(string id)
+    {
+        PV.RPC("setplayerID_RPC", RpcTarget.All, id);
 
-    public int getPlayerID()
+        gameManager.appendPlayer(playerID);
+        //print("set playerid");
+        //gameManager.printallplayers();
+    }
+    public string getPlayerID()
     {
         return playerID;
     }
 
-    public bool isPlayerID(int id)
+    public bool isPlayerID(string id)
     {
         print("playerid:"+playerID);
         print("this id??:"+id);
         return playerID == id;
+    }
+    [PunRPC]
+    void setplayerID_RPC(string id)
+    {
+        playerID = id;
+        print(playerID);
     }
     
 }

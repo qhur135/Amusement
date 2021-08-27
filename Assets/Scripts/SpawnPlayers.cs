@@ -19,7 +19,7 @@ public class SpawnPlayers : MonoBehaviour
     PhotonView PV;
     GameManager Gamemanager;
 
-
+    private string playerid;
 
     private void Awake()
     {
@@ -48,14 +48,16 @@ public class SpawnPlayers : MonoBehaviour
                 cm.target = gameO.transform;
 
                 player.cam = camera;
-             
+            
+                //player.setplayerID(PhotonNetwork.NickName);
+
                 print("enemy instatiate");
                 
             }
             else
             {
 
-                Vector3 runnerPosition = new Vector3(1, 1.5f, -39); // 처음 시작할 때는 모두 러너
+                Vector3 runnerPosition = new Vector3(1, 1.5f, -42); // 러너
                 GameObject gameO =PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
                 
                 Player player = gameO.GetComponent<Player>();
@@ -63,14 +65,21 @@ public class SpawnPlayers : MonoBehaviour
                 GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
                 CameraManager cm = camera.GetComponent<CameraManager>();
                 cm.target = gameO.transform;
-
+             
                 player.cam = camera;
 
-                print("runner instatiate");
-            
 
+                // player.setplayerID(PhotonNetwork.NickName);
+
+                print("runner instatiate");
+
+                // Gamemanager.printallplayers();
             }
         
+    }
+    public void setplayerID(string id)
+    {
+        playerid = id;
     }
     //public void btnOnClick()
     //{
