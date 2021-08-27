@@ -32,6 +32,10 @@ public class Runner : Player
     //}
 
     // Update is called once per frame
+    public bool IsRunnerCaught()
+    {
+        return isCaught;
+    }
     public override void Update()
     {
         if (!PV.IsMine) return;
@@ -49,7 +53,7 @@ public class Runner : Player
        
         if (flowerMsgController.isFlowerEnd())
         { 
-            if (!godmode && lastPosition != transform.position) 
+            if (!isCaught && !godmode && lastPosition != transform.position) 
             {
                 isCaught = true;
                 print("딱걸렸어!");
