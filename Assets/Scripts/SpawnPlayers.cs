@@ -10,6 +10,7 @@ public class SpawnPlayers : MonoBehaviour
 {
 
     const string GAME_MANAGER_TAG = "GameManager";
+    const string RUNNER_TAG = "Runner";
 
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
@@ -17,8 +18,11 @@ public class SpawnPlayers : MonoBehaviour
 
     //[SerializeField] Button startbtn;
     PhotonView PV;
-    GameManager Gamemanager;
+    GameManager Gamemanager; 
+    GameObject[] RunnerObj;
+    Vector3 runnerScale, runnerPosition;
 
+    int runnercnt;
     private string playerid;
 
     private void Awake()
@@ -27,6 +31,7 @@ public class SpawnPlayers : MonoBehaviour
         //gameManager 초기화
         var GameManagerObj = GameObject.FindWithTag(GAME_MANAGER_TAG);
         Gamemanager = GameManagerObj.GetComponent<GameManager>();
+        RunnerObj = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
 
     }
     private void Start()
@@ -56,8 +61,23 @@ public class SpawnPlayers : MonoBehaviour
             }
             else
             {
+                runnercnt = Gamemanager.getRunnercnt();
+                print("runnercnt");
+                print(runnercnt); // 계속 0 출력됨..
 
-                Vector3 runnerPosition = new Vector3(1, 1.5f, -42); // 러너
+                if (runnercnt > 0) // 이후의 러너들 // 안들어가짐..
+                {
+                    runnerScale = RunnerObj[0].transform.lossyScale;
+                    print("runner scale");
+                    print(runnerScale);
+                    runnerPosition = new Vector3(1 + runnerScale.x * 3 * runnercnt, 1.5f, -48); // 러너 위치선정
+
+                }
+                else if(runnercnt==0) // 첫번째 러너
+                {
+                    runnerPosition = new Vector3(1, 1.5f, -48); // 처음 러너 위치 // 계속 이 위치로 생성됨..
+                }
+
                 GameObject gameO =PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
                 
                 Player player = gameO.GetComponent<Player>();

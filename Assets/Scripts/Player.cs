@@ -265,14 +265,14 @@ public class Player : MonoBehaviour
     {
         return PV;
     }
-    public void setplayerID(string id)
-    {
-        PV.RPC("setplayerID_RPC", RpcTarget.All, id);
+    //public void setplayerID(string id)
+    //{
+    //    PV.RPC("setplayerID_RPC", RpcTarget.All, id);
 
-        gameManager.appendPlayer(playerID);
-        //print("set playerid");
-        //gameManager.printallplayers();
-    }
+    //    gameManager.appendPlayer(playerID);
+    //    //print("set playerid");
+    //    //gameManager.printallplayers();
+    //}
     public string getPlayerID()
     {
         return playerID;

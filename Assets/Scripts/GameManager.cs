@@ -29,18 +29,18 @@ public class GameManager : MonoBehaviour
         caughtRunners = new List<int>();
         playerIDs = new List<string>();
     }
-    public void appendPlayer(string id)
-    {
-        PV.RPC(APEEND_PLAYER, RpcTarget.All, id);
-    }
-    public void printallplayers()
-    {
-        for(int i = 0; i < playerIDs.Count; i++)
-        {
-            print(playerIDs.Count);
-            print(playerIDs[i]);
-        }
-    }
+    //public void appendPlayer(string id)
+    //{
+    //    PV.RPC(APEEND_PLAYER, RpcTarget.All, id);
+    //}
+    //public void printallplayers()
+    //{
+    //    for(int i = 0; i < playerIDs.Count; i++)
+    //    {
+    //        print(playerIDs.Count);
+    //        print(playerIDs[i]);
+    //    }
+    //}
     public void catchPlayer(Runner runner)
     {
         caughtcnt = 0;
@@ -63,14 +63,19 @@ public class GameManager : MonoBehaviour
             }
         }
         //this.PV.RPC(CAUGHT_RUNNER, RpcTarget.All, runner.getPlayerID()); // 잡힌 애들 저장하기
-        print(caughtcnt);
-        print(basePosition.z);
+        //print(caughtcnt);
+        //print(basePosition.z);
         //Vector3 nextPosition = new Vector3(basePosition.x + runnerScale.x * caughtRunners.Count, basePosition.y, basePosition.z);
         Vector3 nextPosition = new Vector3(basePosition.x + runnerScale.x*2*caughtcnt , basePosition.y, basePosition.z);
         
 
         //print("catch player");
         PV.RPC(CAUGHT_RUNNER, RpcTarget.All, nextPosition); // 술래 옆에 붙잡아 놓기 , 러너 스크립트에 있
+    }
+    public int getRunnercnt()
+    {
+        RunnerObj = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
+        return RunnerObj.Length;
     }
     public void restartGame()
     {
@@ -102,7 +107,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < RunnerObj.Length; i++)
         {
-            RunnerObj[i].transform.position = new Vector3(runnerScale.x * i + 2, 1.5f, -42);
+            RunnerObj[i].transform.position = new Vector3(runnerScale.x * i + 2, 1.5f, -48);
 
             Debug.Log(RunnerObj[i].transform.position);
 
@@ -125,7 +130,7 @@ public class GameManager : MonoBehaviour
     {
         GameObject enemy = GameObject.FindGameObjectWithTag(ENEMY_TAG);
 
-        enemy.transform.position = new Vector3(1, 1.5f, 30);
+        enemy.transform.position = new Vector3(1, 1.5f, 36);
         Debug.Log(enemy.transform.position);
 
         enemy.GetComponent<Enemy>().enabled = true;
