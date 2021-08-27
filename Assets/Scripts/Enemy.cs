@@ -25,8 +25,8 @@ public class Enemy : Player
     public override void Update()
     {
         if (!PV.IsMine) return;
-        base.Update(); 
-        
+        base.Update();
+
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             flowerMsgController.CountFlowerOnce();
@@ -41,14 +41,12 @@ public class Enemy : Player
         }
     }
 
-    public override void OnCollisionEnter(Collision collision) // oncollisionEnter은 계속 호출되서 터치하고 때는 순간 한번 호출되도록
+    public void OnCollisionEnter(Collision collision) // oncollisionEnter은 계속 호출되서 터치하고 때는 순간 한번 호출되도록
     {
-        
-        base.OnCollisionEnter(collision);
 
         if (!PV.IsMine) return;
 
-        if(collision.gameObject.tag.Equals(RUNNER_TAG))
+        if (collision.gameObject.tag.Equals(RUNNER_TAG))
         {
             if (!ableToMove)
             {
@@ -61,14 +59,14 @@ public class Enemy : Player
                 Runner newE = collision.gameObject.GetComponent<Runner>();
                 newE.tagChange();
 
-                StartCoroutine(timeDelay(2));
+                StartCoroutine(timeDelay(5));
 
                 PV.RPC("colorChangeToRunner", RpcTarget.All); // 러너가 된다
                 PV.RPC(ENEMY_TURN, RpcTarget.All); // 러너가 되어서 애너미를 바라봄
+
+                StartCoroutine(timeDelay(3));
             }
         }
-
-    
 
     }
 
@@ -103,13 +101,5 @@ public class Enemy : Player
         print(view);
         transform.rotation = Quaternion.Euler(0, view, 0);
     }
-   
 
-    //private void enemyWin()
-    //{
-    //    gameObject.tag = "NonActive";
-    //    gameObject.GetComponent<Enemy>().enabled = false;
-    //    gameObject.GetComponent<Player>().enabled = true;
-    //    gameObject.transform.position = new Vector3(1, 1.5f, -30);
-    //}
 }
