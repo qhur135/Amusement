@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     const string GAME_MANAGER_TAG = "GameManager";
 
     //SerializeField
-    [SerializeField] float speed = 5f, jumpPower = 5f;
+    [SerializeField] float speed = 11.0f, jumpPower = 2.0f;
     
     //protected
     protected FlowerMsgController flowerMsgController;
@@ -20,14 +20,28 @@ public class Player : MonoBehaviour
     protected bool ableToMove; // active or nonactive
 
     //private
-    private int jumpCount = 2;
-    private Vector3 movement;
-    private bool isJumping;
     private int playerID;
     private Rigidbody rb;
-    private float horizonal;
-    private float vertical;
     private bool speedup;
+
+    private float airVelocity = 7f;
+    private float gravity = 40.0f;
+    private float maxVelocityChange = 10.0f;
+    private float maxFallSpeed = 20.0f;
+    private float rotateSpeed = 25f; //Speed the player rotate
+    private Vector3 moveDir;
+    public GameObject cam;
+
+    private float distToGround;
+
+    private bool canMove = true; //If player is not hitted
+    private bool isStuned = false;
+    private bool wasStuned = false; //If player was stunned before get stunned another time
+    private float pushForce;
+    private Vector3 pushDir;
+
+    //public Vector3 checkPoint;
+    private bool slide = false;
 
     public virtual void Awake() {
         //flowerMsgController 초기화
@@ -42,17 +56,14 @@ public class Player : MonoBehaviour
         PV = GetComponent<PhotonView>();
         ableToMove = true;
 
-        //movement 초기화
-        movement = Vector3.zero;
-
         // rb 초기화
         rb = GetComponent<Rigidbody>();
 
-        // 점프상태 초기화
-        isJumping = false;
 
         // 스피트상태 초기화
         speedup = false;
+
+        rb.useGravity = false;
 
         //if (PV.IsMine)
         //{
@@ -60,14 +71,17 @@ public class Player : MonoBehaviour
         //}
     }
 
-    //public virtual void Start()
-    //{
-    //    //카메라 분리
-    //    if (!PV.IsMine) // 플레이어와 애너미에 카메라 모두 붙어있는 상태에서(카메라 4개 생성)
-    //    {
-    //        Destroy(GetComponentInChildren<Camera>().gameObject); // 내꺼가 아니면 카메라 파괴 -> 카메라 2개 남음
-    //    }
-    //}
+    private void Start()
+    {
+        distToGround = GetComponent<Collider>().bounds.extents.y;
+    }
+
+    bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
+    }
+
+    
 
     // Update is called once per frame
     public virtual void Update()
@@ -75,49 +89,30 @@ public class Player : MonoBehaviour
         // 내꺼만 움직이도록
         if (!PV.IsMine) return;
 
-        // 키 입력 받기
-        horizonal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-        if (Input.GetButtonDown("Jump") == true && jumpCount > 0)
-           isJumping = true;
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        Vector3 v2 = v * cam.transform.forward; //Vertical axis to which I want to move with respect to the camera
+        Vector3 h2 = h * cam.transform.right; //Horizontal axis to which I want to move with respect to the camera
+        moveDir = (v2 + h2).normalized; //Global position to which I want to move in magnitude 1
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            speedup = true; // 빨라지도록
-            //print("true");
+            speedup = true;
         }
-        else if(Input.GetKeyUp(KeyCode.X))
-        {
-            speedup = false;
-            //print("false");
-        }
-    }
 
-    public virtual void Move()
-    {
-        if (speedup)
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, distToGround + 0.1f))
         {
-            speed = 10f; // 빨라지도록
-            //print("speedup!");
+            if (hit.transform.tag == "Slide")
+            {
+                slide = true;
+            }
+            else
+            {
+                slide = false;
+            }
         }
-        else
-        {
-            speed = 5f;
-            //print("origin speed");
-        }
-        movement = new Vector3(horizonal, 0f, vertical);
-        movement = movement.normalized * speed * Time.deltaTime;
-        rb.MovePosition(transform.position + movement); // 현재위치 + 움직인 위치
-    }
-
-    public virtual void Jump()
-    {
-        if (!isJumping)
-            return;
-
-        rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse); // 점프 내려오는 속도가 느린 문제..? 조금 더 빨리 내려오도록..?
-        isJumping = false;
-        jumpCount--;
     }
 
     public virtual void FixedUpdate()
@@ -125,21 +120,141 @@ public class Player : MonoBehaviour
         if (!PV.IsMine) return; // 내가 아니면 이동하지 않기
         if (!ableToMove) return;// nonactive 상태면 이동하지 않기
 
-        // 물리적 처리
-        Move();
-        Jump();
+        if (canMove)
+        {
+            if (moveDir.x != 0 || moveDir.z != 0)
+            {
+                Vector3 targetDir = moveDir; //Direction of the character
 
-        //transform.Translate(movement * Time.fixedDeltaTime * speed); // 나라면 이동하기
+                targetDir.y = 0;
+                if (targetDir == Vector3.zero)
+                    targetDir = transform.forward;
+                Quaternion tr = Quaternion.LookRotation(targetDir); //Rotation of the character to where it moves
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, Time.deltaTime * rotateSpeed); //Rotate the character little by little
+                transform.rotation = targetRotation;
+            }
 
-        // lerp - 부드럽게 이동, 점프
-        //transform.position = Vector3.Lerp(transform.position, movement, Time.fixedDeltaTime);
+            if (IsGrounded())
+            {
+                // Calculate how fast we should be moving
+                Vector3 targetVelocity = moveDir;
+
+                if (speedup)
+                {
+                    targetVelocity *= 20.0f;
+                }
+                else
+                {
+                    targetVelocity *= speed;
+                }
+                
+                // Apply a force that attempts to reach our target velocity
+                Vector3 velocity = rb.velocity;
+                if (targetVelocity.magnitude < velocity.magnitude) //If I'm slowing down the character
+                {
+                    targetVelocity = velocity;
+                    rb.velocity /= 1.1f;
+                }
+                Vector3 velocityChange = (targetVelocity - velocity);
+                velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+                velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+                velocityChange.y = 0;
+                if (!slide)
+                {
+                    if (Mathf.Abs(rb.velocity.magnitude) < speed * 1.0f)
+                        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+                }
+                else if (Mathf.Abs(rb.velocity.magnitude) < speed * 1.0f)
+                {
+                    rb.AddForce(moveDir * 0.15f, ForceMode.VelocityChange);
+                    //Debug.Log(rb.velocity.magnitude);
+                }
+
+                // Jump
+                if (IsGrounded() && Input.GetButton("Jump"))
+                {
+                    rb.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
+                }
+            }
+            else
+            {
+                if (!slide)
+                {
+                    Vector3 targetVelocity = new Vector3(moveDir.x * airVelocity, rb.velocity.y, moveDir.z * airVelocity);
+                    Vector3 velocity = rb.velocity;
+                    Vector3 velocityChange = (targetVelocity - velocity);
+                    velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+                    velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+                    rb.AddForce(velocityChange, ForceMode.VelocityChange);
+                    if (velocity.y < -maxFallSpeed)
+                        rb.velocity = new Vector3(velocity.x, -maxFallSpeed, velocity.z);
+                }
+                else if (Mathf.Abs(rb.velocity.magnitude) < speed * 1.0f)
+                {
+                    rb.AddForce(moveDir * 0.15f, ForceMode.VelocityChange);
+                }
+            }
+        }
+        else
+        {
+            rb.velocity = pushDir * pushForce;
+        }
+        // We apply gravity manually for more tuning control
+        rb.AddForce(new Vector3(0, -gravity * GetComponent<Rigidbody>().mass, 0));
     }
 
-    public virtual void OnCollisionEnter(Collision collision)
+    float CalculateJumpVerticalSpeed()
     {
-        if(collision.gameObject.tag == "Wall") jumpCount = 2;
+        // From the jump height and gravity we deduce the upwards speed 
+        // for the character to reach at the apex.
+        return Mathf.Sqrt(2 * jumpPower * gravity);
     }
 
+    public void HitPlayer(Vector3 velocityF, float time)
+    {
+        rb.velocity = velocityF;
+
+        pushForce = velocityF.magnitude;
+        pushDir = Vector3.Normalize(velocityF);
+        StartCoroutine(Decrease(velocityF.magnitude, time));
+    }
+
+    public void LoadCheckPoint()
+    {
+        //transform.position = checkPoint;
+    }
+
+    private IEnumerator Decrease(float value, float duration)
+    {
+        if (isStuned)
+            wasStuned = true;
+        isStuned = true;
+        canMove = false;
+
+        float delta = 0;
+        delta = value / duration;
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            yield return null;
+            if (!slide) //Reduce the force if the ground isnt slide
+            {
+                pushForce = pushForce - Time.deltaTime * delta;
+                pushForce = pushForce < 0 ? 0 : pushForce;
+            }
+            rb.AddForce(new Vector3(0, -gravity * GetComponent<Rigidbody>().mass, 0)); //Add gravity
+        }
+
+        if (wasStuned)
+        {
+            wasStuned = false;
+        }
+        else
+        {
+            isStuned = false;
+            canMove = true;
+        }
+    }
 
     public PhotonView getPV()
     {

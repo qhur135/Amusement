@@ -40,11 +40,15 @@ public class SpawnPlayers : MonoBehaviour
 
                 Vector3 enemyPosition = new Vector3(1, 1.5f, 36); // 방장 술랳
                 GameObject gameO =  PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
+              
+                Player player = gameO.GetComponent<Player>();
 
                 GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
                 CameraManager cm = camera.GetComponent<CameraManager>();
                 cm.target = gameO.transform;
 
+                player.cam = camera;
+             
                 print("enemy instatiate");
                 
             }
@@ -53,12 +57,16 @@ public class SpawnPlayers : MonoBehaviour
 
                 Vector3 runnerPosition = new Vector3(1, 1.5f, -39); // 처음 시작할 때는 모두 러너
                 GameObject gameO =PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
+                
+                Player player = gameO.GetComponent<Player>();
 
                 GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
                 CameraManager cm = camera.GetComponent<CameraManager>();
                 cm.target = gameO.transform;
 
-            print("runner instatiate");
+                player.cam = camera;
+
+                print("runner instatiate");
             
 
             }
