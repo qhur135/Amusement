@@ -17,7 +17,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     {
         print("hi");
 
-        
+
     }
     public void CreateRoom()
     {

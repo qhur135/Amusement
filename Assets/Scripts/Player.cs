@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
 
         rb.useGravity = false; // ??
 
- 
+        Cursor.lockState = CursorLockMode.Locked;
 
         //if (PV.IsMine)
         //{
