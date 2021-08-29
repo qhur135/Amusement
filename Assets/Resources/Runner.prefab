@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 5968116356282399410}
   - component: {fileID: 6691342644700235258}
   - component: {fileID: -2962492212729148758}
+  - component: {fileID: 4837817669702165744}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Runner
@@ -305,6 +306,18 @@ MonoBehaviour:
   cam: {fileID: 0}
   speed: 10
   jumpPower: 3
+--- !u!114 &4837817669702165744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5968116356282399401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad2ec9167abed4dcb8844c0772a2f9bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6539605069342350545
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class SpawnPlayers : MonoBehaviour
 
     const string GAME_MANAGER_TAG = "GameManager";
     const string RUNNER_TAG = "Runner";
+    const string JOINROOM_NAME = "CreateAndJoinRooms";
 
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
@@ -20,7 +21,11 @@ public class SpawnPlayers : MonoBehaviour
     PhotonView PV;
     GameManager Gamemanager; 
     GameObject[] RunnerObj;
+    GameObject enemyobj;
+
     Vector3 runnerScale, runnerPosition;
+
+    CreateAndJoinRooms joinScript;
 
     int runnercnt;
     private string playerid;
@@ -36,73 +41,123 @@ public class SpawnPlayers : MonoBehaviour
     }
     private void Start()
     {
-            //startbtn.onClick.AddListener(btnOnClick);
+        //startbtn.onClick.AddListener(btnOnClick);
+        var joinroomObject = GameObject.Find(JOINROOM_NAME);
+        //print("hi");
+        //print(joinroomObject);
+        joinScript = joinroomObject.GetComponent<CreateAndJoinRooms>();
+        string playerid = joinScript.PlayerID; // 로비에서 입력한 id 불러옴
+        Destroy(joinroomObject.gameObject);
 
-            // 일단 방장이 애너미
-            // 랜덤으로 애너미 정할 때, 문제점) 클론 때문에 플레이어가 2명이어도 4명으로 인식하는 문제 - 플레이어의 정보를 가져와서 상태를 바꾸는 것이 어려움(4명중 누구의 상태를 바꿔야하는지)
-            if (PhotonNetwork.IsMasterClient)
-            {
+        SpawnPlayer(playerid);
 
-                Vector3 enemyPosition = new Vector3(1, 1.5f, 36); // 방장 술랳
-                GameObject gameO =  PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
-              
-                Player player = gameO.GetComponent<Player>();
-
-                GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
-                CameraManager cm = camera.GetComponent<CameraManager>();
-                cm.target = gameO.transform;
-
-                player.cam = camera;
-            
-                //player.setplayerID(PhotonNetwork.NickName);
-
-                print("enemy instatiate");
-                
-            }
-            else
-            {
-                runnercnt = Gamemanager.getRunnercnt();
-                print("runnercnt");
-                print(runnercnt); // 계속 0 출력됨..
-
-                if (runnercnt > 0) // 이후의 러너들 // 안들어가짐..
-                {
-                    runnerScale = RunnerObj[0].transform.lossyScale;
-                    print("runner scale");
-                    print(runnerScale);
-                    runnerPosition = new Vector3(1 + runnerScale.x * 3 * runnercnt, 1.5f, -48); // 러너 위치선정
-
-                }
-                else if(runnercnt==0) // 첫번째 러너
-                {
-                    runnerPosition = new Vector3(1, 1.5f, -48); // 처음 러너 위치 // 계속 이 위치로 생성됨..
-                }
-
-                GameObject gameO =PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
-                
-                Player player = gameO.GetComponent<Player>();
-
-                GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
-                CameraManager cm = camera.GetComponent<CameraManager>();
-                cm.target = gameO.transform;
-             
-                player.cam = camera;
+        //enemyobj = GameObject.FindGameObjectWithTag("Enemy");
+        //if (enemyobj != null)
+        //{
+        //    PlayerInfo player = enemyobj.GetComponent<PlayerInfo>();
+        //    print("enemyid");
+        //    print(player.getplayerid());
+        //}
+        //else
+        //{
+        //    print("enemyobj null");
+        //}
 
 
-                // player.setplayerID(PhotonNetwork.NickName);
+        //RunnerObj = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
+        //print("runnercnt");
+        //print(RunnerObj.Length);
+        //print("runnerid");
+        //PlayerInfo runner;
+        //for(int i = 0; i < RunnerObj.Length; i++)
+        //{
+        //    runner = RunnerObj[i].GetComponent<PlayerInfo>();
+        //    print(runner.getplayerid());
+        //}
 
-                print("runner instatiate");
 
-                // Gamemanager.printallplayers();
-            }
 
-            Gamemanager.gameStartState();
-        
     }
-    public void setplayerID(string id)
+    void SpawnPlayer(string id)
     {
-        playerid = id;
+        // 일단 방장이 애너미
+        // 랜덤으로 애너미 정할 때, 문제점) 클론 때문에 플레이어가 2명이어도 4명으로 인식하는 문제 - 플레이어의 정보를 가져와서 상태를 바꾸는 것이 어려움(4명중 누구의 상태를 바꿔야하는지)
+        if (PhotonNetwork.IsMasterClient)
+        {
+
+            Vector3 enemyPosition = new Vector3(1, 1.5f, 36); // 방장 술랳
+            var gameO = PhotonNetwork.Instantiate(enemyPrefab.name, enemyPosition, Quaternion.identity);
+
+            Player player = gameO.GetComponent<Player>();
+
+            GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
+            CameraManager cm = camera.GetComponent<CameraManager>();
+            cm.target = gameO.transform;
+
+            player.cam = camera;
+
+            //print("hi");
+            //print(gameO);
+            //print(gameO.GetComponent<PlayerInfo>());
+            gameO.GetComponent<PlayerInfo>().SetPlayerID(id); // player id 저장
+            //print(gameO.GetComponent<PlayerInfo>().getplayerid());
+        
+            print("enemy instatiate");
+
+        }
+        else
+        {
+            runnercnt = Gamemanager.getRunnercnt();
+            print("runnercnt");
+            print(runnercnt); // 계속 0 출력됨..
+
+            if (runnercnt > 0) // 이후의 러너들 // 안들어가짐..
+            {
+                runnerScale = RunnerObj[0].transform.lossyScale;
+                print("runner scale");
+                print(runnerScale);
+                runnerPosition = new Vector3(1 + runnerScale.x * 3 * runnercnt, 1.5f, -48); // 러너 위치선정
+
+            }
+            else if (runnercnt == 0) // 첫번째 러너
+            {
+                runnerPosition = new Vector3(1, 1.5f, -48); // 처음 러너 위치 // 계속 이 위치로 생성됨..
+            }
+
+            var gameO = PhotonNetwork.Instantiate(playerPrefab.name, runnerPosition, Quaternion.identity);
+
+            Player player = gameO.GetComponent<Player>();
+
+            GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
+            CameraManager cm = camera.GetComponent<CameraManager>();
+            cm.target = gameO.transform;
+
+            player.cam = camera;
+
+            gameO.GetComponent<PlayerInfo>().SetPlayerID(id);
+            //print("runner");
+            //print(gameO.GetComponent<PlayerInfo>().getplayerid());
+
+            //print("enemy");
+            //enemyobj = GameObject.FindGameObjectWithTag("Enemy");
+            //if (enemyobj != null)
+            //{
+            //    PlayerInfo p = enemyobj.GetComponent<PlayerInfo>();
+            //    print("enemyid");
+            //    print(p.getplayerid());
+            //}
+            //else
+            //{
+            //    print("enemyobj null");
+            //}
+            //print("runner instatiate");
+
+            // Gamemanager.printallplayers();
+        }
+
+        Gamemanager.gameStartState();
     }
+  
     //public void btnOnClick()
     //{
     //    if (PhotonNetwork.IsMasterClient) // 방장이면 랜덤으로 애너미 고르도록
