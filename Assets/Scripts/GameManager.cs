@@ -103,10 +103,7 @@ public class GameManager : MonoBehaviour
     }
     public void restartGame()
     {
-        run();
-        enemy();
-
-        gameStartState();
+        StartCoroutine(Restart());
     }
 
     void run()
@@ -150,6 +147,18 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    IEnumerator Restart()
+    {
+        run();
+        enemy();
+        Time.timeScale = 0.001f;
+        yield return new WaitForSeconds(2f);
+        Time.timeScale = 1;
+        gameStartState();
+        
+    }
+
 
     [PunRPC]
     void enemySetting()
