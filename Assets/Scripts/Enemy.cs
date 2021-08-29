@@ -14,12 +14,16 @@ public class Enemy : Player
     const string RUNNER_TAG = "Runner";
     const string ENEMY_TAG = "Enemy";
 
+    PlayerInfo playerinfo;
+
     public override void Awake()
     {
         base.Awake();
         if (!PV.IsMine) return;
         ableToMove = false;
 
+        //playerInfo 초기화
+        playerinfo = GetComponent<PlayerInfo>();
     }
 
     public override void Update()

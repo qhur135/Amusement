@@ -46,27 +46,34 @@ public class SpawnPlayers : MonoBehaviour
         //print("hi");
         //print(joinroomObject);
         joinScript = joinroomObject.GetComponent<CreateAndJoinRooms>();
-        string playerid = joinScript.PlayerID;
+        string playerid = joinScript.PlayerID; // 로비에서 입력한 id 불러옴
         Destroy(joinroomObject.gameObject);
 
         SpawnPlayer(playerid);
 
-        enemyobj = GameObject.FindGameObjectWithTag("Enemy");
-        PlayerInfo player = enemyobj.GetComponent<PlayerInfo>();
-        print("enemyid");
-        print(player.getplayerid());
+        //enemyobj = GameObject.FindGameObjectWithTag("Enemy");
+        //if (enemyobj != null)
+        //{
+        //    PlayerInfo player = enemyobj.GetComponent<PlayerInfo>();
+        //    print("enemyid");
+        //    print(player.getplayerid());
+        //}
+        //else
+        //{
+        //    print("enemyobj null");
+        //}
 
 
-        RunnerObj = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
-        print("runnercnt");
-        print(RunnerObj.Length);
-        print("runnerid");
-        PlayerInfo runner;
-        for(int i = 0; i < RunnerObj.Length; i++)
-        {
-            runner = RunnerObj[i].GetComponent<PlayerInfo>();
-            print(runner.getplayerid());
-        }
+        //RunnerObj = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
+        //print("runnercnt");
+        //print(RunnerObj.Length);
+        //print("runnerid");
+        //PlayerInfo runner;
+        //for(int i = 0; i < RunnerObj.Length; i++)
+        //{
+        //    runner = RunnerObj[i].GetComponent<PlayerInfo>();
+        //    print(runner.getplayerid());
+        //}
 
 
 
@@ -89,11 +96,12 @@ public class SpawnPlayers : MonoBehaviour
 
             player.cam = camera;
 
-            print("hi");
-            print(gameO);
-            print(gameO.GetComponent<PlayerInfo>());
-            gameO.GetComponent<PlayerInfo>().SetPlayerID(id);
-           
+            //print("hi");
+            //print(gameO);
+            //print(gameO.GetComponent<PlayerInfo>());
+            gameO.GetComponent<PlayerInfo>().SetPlayerID(id); // player id 저장
+            //print(gameO.GetComponent<PlayerInfo>().getplayerid());
+        
             print("enemy instatiate");
 
         }
@@ -126,9 +134,23 @@ public class SpawnPlayers : MonoBehaviour
 
             player.cam = camera;
 
-            //gameO.GetComponent<PlayerInfo>().SetPlayerID(id);
+            gameO.GetComponent<PlayerInfo>().SetPlayerID(id);
+            //print("runner");
+            //print(gameO.GetComponent<PlayerInfo>().getplayerid());
 
-            print("runner instatiate");
+            //print("enemy");
+            //enemyobj = GameObject.FindGameObjectWithTag("Enemy");
+            //if (enemyobj != null)
+            //{
+            //    PlayerInfo p = enemyobj.GetComponent<PlayerInfo>();
+            //    print("enemyid");
+            //    print(p.getplayerid());
+            //}
+            //else
+            //{
+            //    print("enemyobj null");
+            //}
+            //print("runner instatiate");
 
             // Gamemanager.printallplayers();
         }
