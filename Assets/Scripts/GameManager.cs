@@ -53,6 +53,18 @@ public class GameManager : MonoBehaviour
         gameStateController.startGame();
         gameStateController.cleanText();
     }
+
+    public void runnerTouchState()
+    {
+        gameStateController.runnerTouch();
+        gameStateController.cleanText();
+    }
+
+    public void enemyCatchState()
+    {
+        gameStateController.enemyCatch();
+        gameStateController.cleanText();
+    }
     public void catchPlayer(Runner runner)
     {
         caughtcnt = 0;
@@ -93,6 +105,8 @@ public class GameManager : MonoBehaviour
     {
         run();
         enemy();
+
+        gameStartState();
     }
 
     void run()
@@ -117,7 +131,7 @@ public class GameManager : MonoBehaviour
     {
         //GameObject[] players = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
 
-        for (int i = 0; i < RunnerObj.Length; i++)
+        for (int i = 0; i < getRunnercnt(); i++)
         {
             RunnerObj[i].transform.position = new Vector3(runnerScale.x * i + 2, 1.5f, -48);
 
