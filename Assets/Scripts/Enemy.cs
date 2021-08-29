@@ -76,7 +76,7 @@ public class Enemy : Player
     }
 
     IEnumerator enemyChange()
-    {
+    { 
         yield return new WaitForSeconds(2);
         PV.RPC(ENEMY_TURN, RpcTarget.All); // 러너가 되어서 애너미를 바라봄
     }

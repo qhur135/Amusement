@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
     public virtual void Awake() {
 
         //flowerMsgController 초기화
-        var MessageControllerObj = GameObject.FindWithTag(FLOWER_MESSAGE_CONTROLLER_TAG); 
+        var MessageControllerObj = GameObject.FindWithTag(FLOWER_MESSAGE_CONTROLLER_TAG);
         flowerMsgController = MessageControllerObj.GetComponent<FlowerMsgController>();
 
         //gameManager 초기화
@@ -120,6 +120,10 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             speedup = true;
+        }
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
         }
 
         RaycastHit hit;
