@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
         // 스피트상태 초기화
         speedup = false;
 
-        rb.useGravity = false; // ??
+        //rb.useGravity = false; // ??
 
         // 커서 가두
         Cursor.lockState = CursorLockMode.Locked;
