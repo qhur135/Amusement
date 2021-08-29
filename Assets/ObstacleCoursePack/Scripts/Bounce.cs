@@ -13,10 +13,10 @@ public class Bounce : MonoBehaviour
 		foreach (ContactPoint contact in collision.contacts)
 		{
 			Debug.DrawRay(contact.point, contact.normal, Color.white);
-			if (collision.gameObject.tag == "Player")
+			if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Runner")
 			{
 				hitDir = contact.normal;
-				collision.gameObject.GetComponent<CharacterControls>().HitPlayer(-hitDir * force, stunTime);
+				collision.gameObject.GetComponent<Player>().HitPlayer(-hitDir * force, stunTime);
 				return;
 			}
 		}

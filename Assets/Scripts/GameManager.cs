@@ -152,11 +152,10 @@ public class GameManager : MonoBehaviour
     {
         run();
         enemy();
-        Time.timeScale = 0.001f;
-        yield return new WaitForSeconds(2f);
+        Time.timeScale = 0.01f;
+        yield return new WaitForSeconds(2 * Time.deltaTime);
         Time.timeScale = 1;
         gameStartState();
-        
     }
 
 
