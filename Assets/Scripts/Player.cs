@@ -10,8 +10,7 @@ public class Player : MonoBehaviour
     //const
     const string FLOWER_MESSAGE_CONTROLLER_TAG = "FlowerMsgController";
     const string GAME_MANAGER_TAG = "GameManager";
-
-
+    
     public GameObject cam;
 
     //SerializeField
@@ -86,6 +85,10 @@ public class Player : MonoBehaviour
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
     }
 
+    protected void delayTime(int delayTime)
+    {
+        StartCoroutine(timeDelay(delayTime));
+    }
     
 
     // Update is called once per frame
@@ -259,6 +262,11 @@ public class Player : MonoBehaviour
             isStuned = false;
             canMove = true;
         }
+    }
+
+    IEnumerator timeDelay(int delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
     }
 
     public PhotonView getPV()

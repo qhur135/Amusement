@@ -9,14 +9,17 @@ public class GameManager : MonoBehaviour
     const string APEEND_PLAYER = "appendPlayer_RPC";
     const string ENEMY_TAG = "Enemy";
     const string RUNNER_TAG = "Runner";
+    const string GAME_STATE_CONTROLLER_TAG = "GameStateController";
+
     const float GAP = 0.5f;
 
     List<int> caughtRunners;
     List<string> playerIDs;
 
     Player Players;
-    PhotonView PV;
+    protected PhotonView PV;
     GameObject[] RunnerObj;
+    GameStateController gameStateController;
     int caughtcnt;
 
     Vector3 basePosition, runnerScale;
@@ -28,6 +31,9 @@ public class GameManager : MonoBehaviour
         PV = GetComponent<PhotonView>();
         caughtRunners = new List<int>();
         playerIDs = new List<string>();
+
+        var gameStateObj = GameObject.FindGameObjectWithTag(GAME_STATE_CONTROLLER_TAG);
+        gameStateController = gameStateObj.GetComponent<GameStateController>();
     }
     //public void appendPlayer(string id)
     //{
@@ -41,6 +47,12 @@ public class GameManager : MonoBehaviour
     //        print(playerIDs[i]);
     //    }
     //}
+
+    public void gameStartState()
+    {
+        gameStateController.startGame();
+        gameStateController.cleanText();
+    }
     public void catchPlayer(Runner runner)
     {
         caughtcnt = 0;

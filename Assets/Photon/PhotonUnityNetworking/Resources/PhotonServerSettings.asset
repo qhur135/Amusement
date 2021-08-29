@@ -52,6 +52,12 @@ MonoBehaviour:
   - TagChange
   - appendPlayer_RPC
   - setplayerID_RPC
+  - CleanText_RPC
+  - EnemyCatch_RPC
+  - RunnerTouch_RPC
+  - RunnerWin_RPC
+  - StartGame_RPC
+  - StateChange_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
