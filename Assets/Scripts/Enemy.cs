@@ -59,12 +59,12 @@ public class Enemy : Player
                 Runner newE = collision.gameObject.GetComponent<Runner>();
                 newE.tagChange();
 
-                StartCoroutine(timeDelay(5));
+                base.delayTime(5);
 
                 PV.RPC("colorChangeToRunner", RpcTarget.All); // 러너가 된다
                 PV.RPC(ENEMY_TURN, RpcTarget.All); // 러너가 되어서 애너미를 바라봄
 
-                StartCoroutine(timeDelay(3));
+                base.delayTime(3);
             }
         }
 
@@ -77,10 +77,6 @@ public class Enemy : Player
         base.FixedUpdate();
     }
 
-    IEnumerator timeDelay(int delayTime)
-    {
-        yield return new WaitForSeconds(delayTime);
-    }
 
     [PunRPC]
     void colorChangeToRunner()

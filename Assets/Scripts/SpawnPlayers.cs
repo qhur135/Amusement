@@ -95,6 +95,8 @@ public class SpawnPlayers : MonoBehaviour
 
                 // Gamemanager.printallplayers();
             }
+
+            Gamemanager.gameStartState();
         
     }
     public void setplayerID(string id)

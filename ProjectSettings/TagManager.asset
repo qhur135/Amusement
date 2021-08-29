@@ -15,6 +15,7 @@ TagManager:
   - Runner
   - GameManager
   - SpawnPlayers
+  - GameStateController
   layers:
   - Default
   - TransparentFX
