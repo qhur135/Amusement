@@ -12,7 +12,7 @@ public class FallPlat : MonoBehaviour
 		foreach (ContactPoint contact in collision.contacts)
 		{
 			//Debug.DrawRay(contact.point, contact.normal, Color.white);
-			if (collision.gameObject.tag == "Player")
+			if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Runner")
 			{
 				StartCoroutine(Fall(fallTime));
 			}
