@@ -41,7 +41,7 @@ public class Enemy : Player
         }
     }
 
-    public void OnCollisionEnter(Collision collision) // oncollisionEnter은 계속 호출되서 터치하고 때는 순간 한번 호출되도록
+    public void OnCollisionExit(Collision collision) // oncollisionEnter은 계속 호출되서 터치하고 때는 순간 한번 호출되도록
     {
 
         if (!PV.IsMine) return;
@@ -51,20 +51,18 @@ public class Enemy : Player
             if (!ableToMove)
             {
                 ableToMove = true; // 애너미 움직이게 됨
-                print("Runner touch enemy");
+                gameManager.runnerTouchState();
             }
             else
             {
-                print("Enemy catch runner");
+                gameManager.enemyCatchState();
+
                 Runner newE = collision.gameObject.GetComponent<Runner>();
                 newE.tagChange();
 
-                base.delayTime(5);
-
+                StartCoroutine(enemyChange());
                 PV.RPC("colorChangeToRunner", RpcTarget.All); // 러너가 된다
-                PV.RPC(ENEMY_TURN, RpcTarget.All); // 러너가 되어서 애너미를 바라봄
 
-                base.delayTime(3);
             }
         }
 
@@ -77,6 +75,11 @@ public class Enemy : Player
         base.FixedUpdate();
     }
 
+    IEnumerator enemyChange()
+    { 
+        yield return new WaitForSeconds(2);
+        PV.RPC(ENEMY_TURN, RpcTarget.All); // 러너가 되어서 애너미를 바라봄
+    }
 
     [PunRPC]
     void colorChangeToRunner()
@@ -84,7 +87,6 @@ public class Enemy : Player
         gameObject.tag = RUNNER_TAG;
         Debug.Log(gameObject.tag);
 
-        //StartCoroutine(timeDelay(2));
         gameManager.restartGame();
 
         gameObject.GetComponent<Renderer>().material.color = Color.blue;
