@@ -190,6 +190,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   speed: 3
   jumpPower: 5
+  playerinfo: {fileID: 0}
 --- !u!114 &8721002660821438452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +206,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   speed: 3
   jumpPower: 5
+  playerinfo: {fileID: 0}
 --- !u!1 &3435604667236283629
 GameObject:
   m_ObjectHideFlags: 0

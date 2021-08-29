@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Runner : Player 
+public class Runner : Player
 {
 
     const string START_LINE_TAG = "StartLine";
@@ -13,18 +13,21 @@ public class Runner : Player
 
     Vector3 lastPosition;
     bool godmode; // 무적 상태 - 움직여도 안걸림 
-    bool passStartLine; 
+    bool passStartLine;
     bool isCaught;
-  
 
+    PlayerInfo playerinfo;
 
     public override void Awake()
     {
         base.Awake();
-        godmode =true; 
-        passStartLine = false; 
+        godmode = true;
+        passStartLine = false;
         isCaught = false;
         print("Runner Awake");
+
+
+        playerinfo = GetComponent<PlayerInfo>();
     }
     //public override void Start()
     //{
@@ -38,7 +41,7 @@ public class Runner : Player
     }
     public override void Update()
     {
-        if (!PV.IsMine) return;
+        //if (!PV.IsMine) return;
         base.Update();
 
         if (passStartLine)
@@ -50,10 +53,10 @@ public class Runner : Player
             godmode = true;
         }
 
-       
+
         if (flowerMsgController.isFlowerEnd())
-        { 
-            if (!isCaught && !godmode && lastPosition != transform.position) 
+        {
+            if (!isCaught && !godmode && lastPosition != transform.position)
             {
                 isCaught = true;
                 print("딱걸렸어!");
@@ -62,8 +65,8 @@ public class Runner : Player
         }
         else // 멘트 다 외치기 전에 계속해서 최근 위치 업데이트
         {
-             lastPosition = transform.position;
-             //print("position update");   
+            lastPosition = transform.position;
+            //print("position update");   
         }
 
     }

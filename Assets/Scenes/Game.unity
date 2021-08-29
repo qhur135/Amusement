@@ -2033,7 +2033,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1da6fc5287b4f4caa9773550928590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameStateController: {fileID: 2107422695}
 --- !u!4 &1806773704
 Transform:
   m_ObjectHideFlags: 0
