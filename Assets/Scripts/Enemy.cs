@@ -50,7 +50,7 @@ public class Enemy : Player
 
         if (!PV.IsMine) return;
 
-        if (collision.gameObject.tag.Equals(RUNNER_TAG))
+        if (collision.gameObject.tag.Equals(RUNNER_TAG) && gameObject.tag.Equals(ENEMY_TAG))
         {
             if (!ableToMove)
             {
