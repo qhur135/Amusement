@@ -13,7 +13,7 @@ public class GameStateController : GameManager
     public void startGame()
     {
         PV.RPC(CHANGE, RpcTarget.All, "GAME START");
-        //gameState.text = "GAME START";
+ 
     }
 
     

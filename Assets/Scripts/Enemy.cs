@@ -54,8 +54,8 @@ public class Enemy : Player
         {
             if (!ableToMove)
             {
-                ableToMove = true; // 애너미 움직이게 됨
                 gameManager.runnerTouchState();
+                ableToMove = true; // 애너미 움직이게 됨
             }
             else
             {
