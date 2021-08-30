@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     private bool slide = false;
 
     public virtual void Awake() {
+
         //flowerMsgController 초기화
         var MessageControllerObj = GameObject.FindWithTag(FLOWER_MESSAGE_CONTROLLER_TAG);
         flowerMsgController = MessageControllerObj.GetComponent<FlowerMsgController>();
@@ -67,8 +68,10 @@ public class Player : MonoBehaviour
 
         //rb.useGravity = false; // ??
 
+        // 커서 가두
         Cursor.lockState = CursorLockMode.Locked;
 
+       
         //if (PV.IsMine)
         //{
         //    playerID = gameManager.registerPlayer();
@@ -78,6 +81,8 @@ public class Player : MonoBehaviour
     private void Start()
     {
         distToGround = GetComponent<Collider>().bounds.extents.y;
+
+       
     }
 
     bool IsGrounded()
@@ -96,6 +101,14 @@ public class Player : MonoBehaviour
     {
         // 내꺼만 움직이도록
         if (!PV.IsMine) return;
+
+        // 커서 밖으로 나오도록
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+
+      
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");

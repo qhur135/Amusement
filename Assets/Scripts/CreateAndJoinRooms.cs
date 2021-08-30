@@ -7,32 +7,33 @@ using TMPro;
 
 public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
-    const string SPAWN_PLAYER_TAG = "SpawnPlayers";
-
+    
     public TMP_InputField createInput;
     public TMP_InputField joinInput;
     public TMP_InputField nameInput;
 
-    private void Start()
+    public string PlayerID { get; set; }
+
+    private void Awake()
     {
-        print("hi");
-
-
+        PlayerID = "";
+        DontDestroyOnLoad(this.gameObject);
     }
     public void CreateRoom()
     {
-        PhotonNetwork.NickName = nameInput.text;
+        PlayerID = nameInput.text;
         PhotonNetwork.CreateRoom(createInput.text);
         print("create room");
     }
     public void JoinRoom()
     {
-        PhotonNetwork.NickName = nameInput.text;
+        PlayerID = nameInput.text;
         PhotonNetwork.JoinRoom(joinInput.text);
         print("join room");
     }
     public override void OnJoinedRoom()
     {
+        print("joinroom");
         PhotonNetwork.LoadLevel("Game");
         
     }

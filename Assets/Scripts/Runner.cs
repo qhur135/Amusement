@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Runner : Player 
+public class Runner : Player
 {
 
     const string START_LINE_TAG = "StartLine";
@@ -13,18 +13,21 @@ public class Runner : Player
 
     Vector3 lastPosition;
     bool godmode; // 무적 상태 - 움직여도 안걸림 
-    bool passStartLine; 
+    bool passStartLine;
     bool isCaught;
-  
 
+    PlayerInfo playerinfo;
 
     public override void Awake()
     {
         base.Awake();
-        godmode =true; 
-        passStartLine = false; 
+        godmode = true;
+        passStartLine = false;
         isCaught = false;
         print("Runner Awake");
+
+
+        playerinfo = GetComponent<PlayerInfo>();
     }
     //public override void Start()
     //{
