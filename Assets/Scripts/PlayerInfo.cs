@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using Photon.Realtime;
 
 public class PlayerInfo : MonoBehaviourPunCallbacks
 {
-    //[SerializeField] TMP_Text playeridtext; 
+    [SerializeField] TMP_Text playeridtext;
 
     const string UPDATE_Player_ID = "UpdatePlayerID_RPC";
     PhotonView pv;
@@ -20,7 +21,7 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
     public void UpdatePlayerID_RPC(string id)
     {
         PlayerID = id;
-        //playeridtext.text = PlayerID;
+        playeridtext.text = PlayerID;
     }
     public void SetPlayerID(string id)
     {
@@ -30,10 +31,10 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
     {
         return PlayerID;
     }
-    //public override void OnPlayerEnteredRoom(Player newPlayer)
-    //{
-    //    if (!pv.IsMine) return;
-    //    base.OnPlayerEnteredRoom(newPlayer);
-    //    pv.RPC(UPDATE_Player_ID, RpcTarget.All, PlayerID);
-    //}
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        if (!pv.IsMine) return;
+        base.OnPlayerEnteredRoom(newPlayer);
+        pv.RPC(UPDATE_Player_ID, RpcTarget.All, PlayerID);
+    }
 }

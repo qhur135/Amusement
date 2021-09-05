@@ -17,6 +17,7 @@ public class SpawnPlayers : MonoBehaviour
     public GameObject enemyPrefab;
     public GameObject cameraPrefab;
 
+    //[SerializeField] TMP_Text playertextid;
     //[SerializeField] Button startbtn;
     PhotonView PV;
     GameManager Gamemanager; 
@@ -91,6 +92,8 @@ public class SpawnPlayers : MonoBehaviour
             Player player = gameO.GetComponent<Player>();
 
             GameObject camera = Instantiate(cameraPrefab, new Vector3(0, 10, 0), cameraPrefab.transform.rotation);
+          
+
             CameraManager cm = camera.GetComponent<CameraManager>();
             cm.target = gameO.transform;
 
@@ -100,8 +103,9 @@ public class SpawnPlayers : MonoBehaviour
             //print(gameO);
             //print(gameO.GetComponent<PlayerInfo>());
             gameO.GetComponent<PlayerInfo>().SetPlayerID(id); // player id 저장
+            //playertextid.transform.position = player.transform.position;
             //print(gameO.GetComponent<PlayerInfo>().getplayerid());
-        
+
             print("enemy instatiate");
 
         }
@@ -135,6 +139,9 @@ public class SpawnPlayers : MonoBehaviour
             player.cam = camera;
 
             gameO.GetComponent<PlayerInfo>().SetPlayerID(id);
+
+            //playertextid.transform.position = player.transform.position;
+
             //print("runner");
             //print(gameO.GetComponent<PlayerInfo>().getplayerid());
 

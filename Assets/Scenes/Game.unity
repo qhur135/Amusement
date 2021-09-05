@@ -745,6 +745,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 5968116356282399401, guid: 09f8de522d1814e849d26654278c140b, type: 3}
   enemyPrefab: {fileID: 932847557314802172, guid: 394b61243ec2f4304879700d038644c5, type: 3}
   cameraPrefab: {fileID: 8125632388429620749, guid: 74fe7eed3ad8ec84bb8770355f363fda, type: 3}
+  canvas: {fileID: 1300124806}
 --- !u!4 &351996166
 Transform:
   m_ObjectHideFlags: 0
