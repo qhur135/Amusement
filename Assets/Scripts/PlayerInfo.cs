@@ -10,12 +10,12 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text playeridtext; 
 
     const string UPDATE_Player_ID = "UpdatePlayerID_RPC";
-    PhotonView pv;
+    PhotonView PV;
 
     public string PlayerID { get; set; }
     private void Awake()
     {
-        pv = GetComponent<PhotonView>();
+        PV = GetComponent<PhotonView>();
     }
     [PunRPC]
     public void UpdatePlayerID_RPC(string id)
@@ -25,7 +25,7 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
     }
     public void SetPlayerID(string id)
     {
-        pv.RPC(UPDATE_Player_ID, RpcTarget.All, id);
+        PV.RPC(UPDATE_Player_ID, RpcTarget.All, id);
     }
     public string getplayerid()
     {
@@ -33,8 +33,8 @@ public class PlayerInfo : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        if (!pv.IsMine) return;
+        if (!PV.IsMine) return;
         base.OnPlayerEnteredRoom(newPlayer);
-    pv.RPC(UPDATE_Player_ID, RpcTarget.All, PlayerID);
+        PV.RPC(UPDATE_Player_ID, RpcTarget.All, PlayerID);
     }
 }

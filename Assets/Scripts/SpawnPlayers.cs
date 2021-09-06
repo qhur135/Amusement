@@ -69,7 +69,7 @@ public class SpawnPlayers : MonoBehaviour
             player.cam = camera;
 
             gameO.GetComponent<PlayerInfo>().SetPlayerID(id); // player id 저장
-            //print(gameO.GetComponent<PlayerInfo>().getplayerid());
+            
         
             print("enemy instatiate");
 
@@ -104,6 +104,7 @@ public class SpawnPlayers : MonoBehaviour
             player.cam = camera;
 
             gameO.GetComponent<PlayerInfo>().SetPlayerID(id);
+            print(gameO.GetComponent<PlayerInfo>().getplayerid());
         }
 
         Gamemanager.gameStartState();
