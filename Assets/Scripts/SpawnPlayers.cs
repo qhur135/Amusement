@@ -17,7 +17,6 @@ public class SpawnPlayers : MonoBehaviour
     public GameObject enemyPrefab;
     public GameObject cameraPrefab;
 
-    //[SerializeField] Button startbtn;
     PhotonView PV;
     GameManager Gamemanager; 
     GameObject[] RunnerObj;
@@ -41,40 +40,13 @@ public class SpawnPlayers : MonoBehaviour
     }
     private void Start()
     {
-        //startbtn.onClick.AddListener(btnOnClick);
         var joinroomObject = GameObject.Find(JOINROOM_NAME);
         //print("hi");
-        //print(joinroomObject);
         joinScript = joinroomObject.GetComponent<CreateAndJoinRooms>();
         string playerid = joinScript.PlayerID; // 로비에서 입력한 id 불러옴
         Destroy(joinroomObject.gameObject);
 
         SpawnPlayer(playerid);
-
-        //enemyobj = GameObject.FindGameObjectWithTag("Enemy");
-        //if (enemyobj != null)
-        //{
-        //    PlayerInfo player = enemyobj.GetComponent<PlayerInfo>();
-        //    print("enemyid");
-        //    print(player.getplayerid());
-        //}
-        //else
-        //{
-        //    print("enemyobj null");
-        //}
-
-
-        //RunnerObj = GameObject.FindGameObjectsWithTag(RUNNER_TAG);
-        //print("runnercnt");
-        //print(RunnerObj.Length);
-        //print("runnerid");
-        //PlayerInfo runner;
-        //for(int i = 0; i < RunnerObj.Length; i++)
-        //{
-        //    runner = RunnerObj[i].GetComponent<PlayerInfo>();
-        //    print(runner.getplayerid());
-        //}
-
 
 
     }
@@ -96,9 +68,6 @@ public class SpawnPlayers : MonoBehaviour
 
             player.cam = camera;
 
-            //print("hi");
-            //print(gameO);
-            //print(gameO.GetComponent<PlayerInfo>());
             gameO.GetComponent<PlayerInfo>().SetPlayerID(id); // player id 저장
             //print(gameO.GetComponent<PlayerInfo>().getplayerid());
         
@@ -135,40 +104,11 @@ public class SpawnPlayers : MonoBehaviour
             player.cam = camera;
 
             gameO.GetComponent<PlayerInfo>().SetPlayerID(id);
-            //print("runner");
-            //print(gameO.GetComponent<PlayerInfo>().getplayerid());
-
-            //print("enemy");
-            //enemyobj = GameObject.FindGameObjectWithTag("Enemy");
-            //if (enemyobj != null)
-            //{
-            //    PlayerInfo p = enemyobj.GetComponent<PlayerInfo>();
-            //    print("enemyid");
-            //    print(p.getplayerid());
-            //}
-            //else
-            //{
-            //    print("enemyobj null");
-            //}
-            //print("runner instatiate");
-
-            // Gamemanager.printallplayers();
         }
 
         Gamemanager.gameStartState();
     }
   
-    //public void btnOnClick()
-    //{
-    //    if (PhotonNetwork.IsMasterClient) // 방장이면 랜덤으로 애너미 고르도록
-    //    {
-    //        print("master btn click");
-    //        PV.RPC("btncolorchange_RPC", RpcTarget.All);
-
-    //        PhotonView enemy = Gamemanager.getEnemy();
-    //        PV.RPC("makeenemy_RPC", RpcTarget.All, enemy);
-    //    }
-    //}
     //[PunRPC]
     //void btncolorchange_RPC()
     //{
